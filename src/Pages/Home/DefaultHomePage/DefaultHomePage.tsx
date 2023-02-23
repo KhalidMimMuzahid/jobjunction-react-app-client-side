@@ -74,7 +74,7 @@ const DefaultHomePage = () => {
             }}
             component="h3"
           >
-            Wellcome to your <br></br> professional community
+            Wellcome to our <br></br> professional community
           </Typography>
           <form onSubmit={handleSubmit(handleFormSubmit)}>
             <Stack direction="column" spacing={3}>
