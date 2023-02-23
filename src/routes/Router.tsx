@@ -2,7 +2,6 @@ import { createBrowserRouter } from "react-router-dom";
 import ErrorPage from "../Components/ErrorPage/ErrorPage";
 import Main from "../layouts/Main/Main";
 import Feed from "../Pages/Feed/Feed";
-import Home from "../Pages/Home/Home";
 import Jobs from "../Pages/Jobs/Jobs";
 import Messaging from "../Pages/Messaging/Messaging";
 import MyNetwork from "../Pages/MyNetwork/MyNetwork";
@@ -21,10 +20,6 @@ export const router = createBrowserRouter([
     element: <Main />,
     errorElement: <ErrorPage />,
     children: [
-      {
-        path: "/",
-        element: <Home />,
-      },
       {
         path: "/feed",
         element: <Feed />,
