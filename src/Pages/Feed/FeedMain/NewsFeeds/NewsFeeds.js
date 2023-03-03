@@ -3,22 +3,30 @@ import { Container } from "@mui/material";
 import { NewsFeedContainer } from "./NewsFeeds.styled";
 import UserPost from "./UserPost/UserPost";
 import NewsFeedCard from "./NewsFeedCard/NewsFeedCard";
+import Loader from "../../../../Components/Loader/Loader";
 
 const NewsFeeds = () => {
   // json data in news feed web page
 
   const [datas, setData] = React.useState(null);
   const [refreshAllPost, setRefreshAllPost] = React.useState(false);
+  const [isNewsFeedLoading, setIsNewsFeedLoading] = React.useState(true)
 
   React.useEffect(() => {
+    setIsNewsFeedLoading(true)
     fetch(`${process.env.REACT_APP_server_link}/allposts`)
       .then((res) => res.json())
       .then((value) => {
         setData(value?.data?.reverse());
+        setIsNewsFeedLoading(false)
         // console.log(data)
       });
   }, [refreshAllPost]);
 
+
+  if(isNewsFeedLoading){
+    return <Loader />
+  }
   // const NewsFeedCards = [
   //   {
   //     userLogo: "https://i.ibb.co/4MnMYkJ/Joseph-Gray.png",

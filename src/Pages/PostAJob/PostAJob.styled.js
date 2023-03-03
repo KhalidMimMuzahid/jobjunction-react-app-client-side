@@ -7,7 +7,7 @@ export const POSTAJOBSCONTAINER = styled(Box)(({theme})=> ({
     placeItems: 'center',
     background: '#38434F',
     padding: '3rem 1rem',
-    height: '100vh'
+    // height: '100vh'
 }))
 
 

@@ -4,6 +4,7 @@ import Main from "../layouts/Main/Main";
 import Feed from "../Pages/Feed/Feed";
 import Home from "../Pages/Home/Home";
 import Jobs from "../Pages/Jobs/Jobs";
+import SingleJob from "../Pages/Jobs/SingleJob/SingleJob";
 import Messaging from "../Pages/Messaging/Messaging";
 import MessagingDetails from "../Pages/Messaging/MessagingDetails/MessagingDetails";
 import MyNetwork from "../Pages/MyNetwork/MyNetwork";
@@ -48,6 +49,11 @@ export const router = createBrowserRouter([
       {
         path: "/jobs",
         element: <Jobs />,
+      },
+      {
+        path: "/jobs/:id",
+        element: <SingleJob />,
+        loader: ({ params }) => fetch(`http://localhost:5000/jobs/${params.id}`)
       },
       {
         path: "/my-profile",
