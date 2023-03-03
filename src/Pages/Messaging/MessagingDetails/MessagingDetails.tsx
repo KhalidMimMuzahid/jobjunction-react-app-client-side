@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Box, Paper } from "@mui/material";
 import {
   MESSAGINGCHATINGCONTAINER,
@@ -19,11 +19,40 @@ import { CHATINGINPUT } from "../MessagingList/MessagingList.styled";
 import { useLoaderData } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { MyContext } from "../../../context/MyProvider/MyProvider";
+import EachMessage from "./EachMessage/EachMessage";
+import { toast } from "react-toastify";
 const MessagingDetails = () => {
   const { currentUser } = useContext(MyContext);
+  const [chatProfilePhoto, setChatProfilePhoto] = React.useState("");
+  const [chatName, setChatName] = React.useState("");
   const chatId = useLoaderData();
   console.log("chatId: ", chatId);
-
+  useEffect(() => {
+    fetch(`http://localhost:5000/chatInfo?chatId=${chatId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww", data);
+        if (data?.isGroupChat) {
+          setChatProfilePhoto(data?.chatProfilePhoto);
+          setChatName(data?.chatName);
+        } else {
+          let users: [];
+          users = data?.users;
+          const userObject: any = users?.find(
+            (each: any) => each?.email !== currentUser?.email
+          );
+          const userEmail = userObject?.email;
+          console.log("userEmail: ", userEmail);
+          fetch(`http://localhost:5000/userProfile?email=${userEmail}`)
+            .then((res) => res.json())
+            .then((data) => {
+              // console.log("this is another user: ", data);
+              setChatProfilePhoto(data?.profilePhoto);
+              setChatName(data?.name);
+            });
+        }
+      });
+  }, [chatId]);
   const {
     data: messages,
     error,
@@ -41,7 +70,10 @@ const MessagingDetails = () => {
         `http://localhost:5000/search-messages?chatId=${chatId}`
       );
       const data = await res.json();
-      console.log("result: ", data);
+      console.log(
+        "resultxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx: ",
+        data
+      );
       return data;
     },
   });
@@ -53,7 +85,36 @@ const MessagingDetails = () => {
     time: string;
     day: string;
   }
-
+  const handleMeassageSubmit = (e: any) => {
+    e.preventDefault();
+    const message = e.target.message.value;
+    if (!message) {
+      return;
+    }
+    const messageInfo = {
+      chatId,
+      message,
+      senderEmail: currentUser.email,
+    };
+    fetch("http://localhost:5000/sendMessage", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(messageInfo),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(
+          "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx:",
+          data
+        );
+        if (data?.acknowledged) {
+          e.target.reset();
+          refetch();
+        }
+      });
+  };
   return (
     <MESSAGINGCHATINGCONTAINER
       sx={{ position: "relative", paddingY: ".75rem", paddingBottom: "70px" }}
@@ -70,14 +131,14 @@ const MessagingDetails = () => {
           {/* client images */}
           <Box>
             <img
-              style={{ width: "50px", borderRadius: "100%" }}
-              src="https://i.ibb.co/jvj33G3/jhankar-mahbub.png"
+              style={{ width: "50px", height: "50px", borderRadius: "100%" }}
+              src={chatProfilePhoto}
               alt="jhankar-mahbub"
             />
           </Box>
           {/* client name  */}
           <Box>
-            <Typography component="h4">jhankar Mahbub</Typography>
+            <Typography component="h4">{chatName}</Typography>
           </Box>
         </CALLVIDEOSECTION>
         {/* call video convention information section */}
@@ -98,74 +159,13 @@ const MessagingDetails = () => {
       {/* sx={{ overflowY: 'scroll', height: '100vh' }} */}
       {/* chating section start */}
       <Box sx={{ overflowY: "scroll", height: 500, margin: "1rem" }}>
-        {messages?.map((eachMessage: any) => {
-          return (
-            <Box key={eachMessage?._id}>
-              {
-                eachMessage?.sender?.email !== currentUser?.email ? (
-                  // <Box>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      marginY: "0.75rem",
-                      mr: { lg: "150px", md: "100px", sm: "50px", xs: "30px" },
-                    }}
-                  >
-                    <Box>
-                      <img
-                        style={{
-                          width: "25px",
-                          borderRadius: "100%",
-                          marginRight: "0.75rem",
-                        }}
-                        src=""
-                        alt="jhankar-mahbub"
-                      />
-                    </Box>
-                    <USERMESSAGEINFO>
-                      <Typography component="p">
-                        {eachMessage?.message}
-                      </Typography>
-                    </USERMESSAGEINFO>
-                  </Box>
-                ) : (
-                  // </Box>
-
-                  // <Box>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "flex-end",
-                      marginY: "0.75rem",
-                      ml: { lg: "150px", md: "100px", sm: "50px", xs: "30px" },
-                    }}
-                  >
-                    <USERMESSAGEINFO sx={{ marginRight: "0.75rem" }}>
-                      <Typography component="p">
-                        {eachMessage?.message}
-                      </Typography>
-                    </USERMESSAGEINFO>
-                    <Box sx={{ display: "flex", alignItems: "center" }}>
-                      <img
-                        style={{
-                          width: "25px",
-                          borderRadius: "100%",
-                          marginRight: "0.75rem",
-                        }}
-                        src=""
-                        alt="jhankar-mahbub"
-                      />
-                    </Box>
-                  </Box>
-                )
-
-                //</Box>
-              }
-            </Box>
-          );
-        })}
+        {messages?.map((eachMessage: any) => (
+          <EachMessage
+            key={eachMessage?._id}
+            eachMessage={eachMessage}
+            refetch={refetch}
+          />
+        ))}
 
         <Box
           sx={{
@@ -204,11 +204,22 @@ const MessagingDetails = () => {
             </IconButton>
           </Box>
           {/* middle section chat input filed start */}
-          <Box sx={{ flexGrow: 1 }}>
-            <Box>
-              <CHATINGINPUT type="text" placeholder="Aa" />
+          <form onSubmit={handleMeassageSubmit}>
+            <Box sx={{ flexGrow: 1, display: "flex", alignItems: "center" }}>
+              <Box sx={{ flexGrow: 1 }}>
+                <CHATINGINPUT
+                  name="message"
+                  type="text"
+                  placeholder="type your message..."
+                />
+              </Box>
+              <Typography
+                sx={{ marginLeft: "5px", ":hover": { cursor: "pointer" } }}
+              >
+                <button type="submit">send</button>
+              </Typography>
             </Box>
-          </Box>
+          </form>
           {/* chat input filed end */}
 
           {/* voice icons this right section  */}

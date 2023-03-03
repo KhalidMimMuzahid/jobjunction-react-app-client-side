@@ -76,7 +76,11 @@ const EachList = (props: any) => {
               borderRadius: "100%",
               marginRight: "8px",
             }}
-            src={chatProfilePhoto}
+            src={
+              chatProfilePhoto
+                ? chatProfilePhoto
+                : "https://i.ibb.co/qyv53dQ/150-1503945-transparent-user-png-default-user-image-png-png.png"
+            }
             alt="sumit shah"
           />
         </Box>
