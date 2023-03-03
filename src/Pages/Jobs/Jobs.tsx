@@ -13,9 +13,9 @@ const Jobs = () => {
       <LeftSideMain />
 
       <div>
+        <MoreJob></MoreJob>
         <Recommened></Recommened>
         <Remote></Remote>
-        <MoreJob></MoreJob>
       </div>
 
       <RightSide />
