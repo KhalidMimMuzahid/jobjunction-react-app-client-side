@@ -1,7 +1,7 @@
 import { Box, Paper, Typography, IconButton } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   MESSAGINGLISTCONTAINER,
   Search,
@@ -19,22 +19,25 @@ import SearchIcon from "@mui/icons-material/Search";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import { useQuery } from "@tanstack/react-query";
 import { MyContext } from "../../../context/MyProvider/MyProvider";
+import { io } from "socket.io-client";
 import EachList from "./EachList/EachList";
+import { SearchContext } from "../../../context/SearchPovider/SearchPovider";
 interface EachInfo {
   userLogo: string;
   userName: string;
   message: string;
 }
 
+// const ENDPOINT = "http://localhost:5000";
+// let socket: any;
 const MessagingList = () => {
+  const { refreshMessageListToggle } = React.useContext(SearchContext);
   const { currentUser } = useContext(MyContext);
   const [open, setOpen] = React.useState(false);
   const [chatLists, setChatLists] = React.useState([]);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  // handle conditional hover
-  // const handleHover: string = () => {}
   const style = {
     position: "absolute" as "absolute",
     top: "50%",
@@ -46,6 +49,14 @@ const MessagingList = () => {
     boxShadow: 24,
     p: 4,
   };
+  // useEffect(() => {
+  //   if (currentUser?.uid) {
+  //     socket = io(ENDPOINT);
+  //     // socket.emit("setup", currentUser);
+  //     // socket.on("connected", () => setSocketConnected(true));
+  //   }
+  //   // eslint-disable-next-line
+  // }, []);
 
   const {
     data,
@@ -58,8 +69,9 @@ const MessagingList = () => {
     isRefetching,
     refetch,
   } = useQuery({
-    queryKey: [],
+    queryKey: [refreshMessageListToggle],
     queryFn: async () => {
+      // socket?.emit("join chat", currentUser);
       const res = await fetch(
         `http://localhost:5000/messagelists?myEmail=${currentUser?.email}`
       );
@@ -69,6 +81,17 @@ const MessagingList = () => {
       return data;
     },
   });
+
+  // // useEffect(() => {
+  // socket.on("message recieved", (messageInfo: any) => {
+  //   console.log("you received message", messageInfo);
+  //   refetch();
+  // });
+  // socket.on("message sent", (messageInfo: any) => {
+  //   // console.log("you received message", messageInfo);
+  //   refetch();
+  // });
+  // // });
 
   return (
     <MESSAGINGLISTCONTAINER>

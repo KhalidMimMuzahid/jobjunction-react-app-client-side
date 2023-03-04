@@ -21,17 +21,38 @@ import { useQuery } from "@tanstack/react-query";
 import { MyContext } from "../../../context/MyProvider/MyProvider";
 import EachMessage from "./EachMessage/EachMessage";
 import { toast } from "react-toastify";
+import { io } from "socket.io-client";
+import { SearchContext } from "../../../context/SearchPovider/SearchPovider";
+const ENDPOINT = "http://localhost:5000";
+let socket: any, selectedChatCompare: any;
 const MessagingDetails = () => {
+  const { setRefreshMessageListToggle } = useContext(SearchContext);
   const { currentUser } = useContext(MyContext);
   const [chatProfilePhoto, setChatProfilePhoto] = React.useState("");
   const [chatName, setChatName] = React.useState("");
+  const [chatInfo, setChatInfo] = React.useState({});
   const chatId = useLoaderData();
   console.log("chatId: ", chatId);
+
+  const [socketConnected, setSocketConnected] = React.useState(false);
+  const [isConnectionSent, setIsConnectionSent] = React.useState(false);
+  socket?.emit("join chat", currentUser);
+  useEffect(() => {
+    if (currentUser?.uid) {
+      socket = io(ENDPOINT);
+      // socket.emit("setup", currentUser);
+      // socket.on("connected", () => setSocketConnected(true));
+    }
+    // eslint-disable-next-line
+  }, []);
+
   useEffect(() => {
     fetch(`http://localhost:5000/chatInfo?chatId=${chatId}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww", data);
+        setChatInfo(data);
+        // socket?.emit("join chat", chatId);
+        // socket?.emit("join chat", currentUser);
         if (data?.isGroupChat) {
           setChatProfilePhoto(data?.chatProfilePhoto);
           setChatName(data?.chatName);
@@ -53,6 +74,7 @@ const MessagingDetails = () => {
         }
       });
   }, [chatId]);
+
   const {
     data: messages,
     error,
@@ -70,10 +92,10 @@ const MessagingDetails = () => {
         `http://localhost:5000/search-messages?chatId=${chatId}`
       );
       const data = await res.json();
-      console.log(
-        "resultxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx: ",
-        data
-      );
+      // console.log(
+      //   "resultxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx: ",
+      //   data
+      // );
       return data;
     },
   });
@@ -112,9 +134,20 @@ const MessagingDetails = () => {
         if (data?.acknowledged) {
           e.target.reset();
           refetch();
+          setRefreshMessageListToggle((prev: any) => !prev);
+          const messageDetailsInfo = { messageInfo, chatInfo };
+          socket.emit("new message", messageDetailsInfo);
         }
       });
   };
+  useEffect(() => {
+    socket.on("message recieved", (messageInfo: any) => {
+      // console.log("you received message", messageInfo);
+      refetch();
+      setRefreshMessageListToggle((prev: any) => !prev);
+    });
+  });
+
   return (
     <MESSAGINGCHATINGCONTAINER
       sx={{ position: "relative", paddingY: ".75rem", paddingBottom: "70px" }}

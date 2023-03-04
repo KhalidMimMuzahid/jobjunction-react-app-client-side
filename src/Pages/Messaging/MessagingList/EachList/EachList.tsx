@@ -19,6 +19,7 @@ const EachList = (props: any) => {
   const [chatProfilePhoto, setChatProfilePhoto] = React.useState("");
   const [chatName, setChatName] = React.useState("");
   const { currentUser } = React.useContext(MyContext);
+
   const { eachList } = props;
   const navigate = useNavigate();
   //   let users: [];

@@ -115,7 +115,7 @@ const PeopleDetails = () => {
     },
   });
 
-  console.log("Peopleeeeeeeeee", people)
+  console.log("Peopleeeeeeeeee", people);
   // if (isLoadingForUseProfile || isLoading) {
   //   return <Loader type="" />;
   // }
@@ -183,24 +183,28 @@ const PeopleDetails = () => {
               <Avatar
                 className="userPhoto"
                 src={people?.profilePhoto}
-                alt={people?.name} />
+                alt={people?.name}
+              />
             </Box>
             <Box>
-              <Typography className="userName" component='h3'>{people?.name}</Typography>
-              <Typography className="userTitle" component='h3'>{people?.title}</Typography>
+              <Typography className="userName" component="h3">
+                {people?.name}
+              </Typography>
+              <Typography className="userTitle" component="h3">
+                {people?.title}
+              </Typography>
             </Box>
           </PEOPLE_DETAILS_CONTAINER>
 
-          <Box sx={{ padding: '0 2rem' }}>
+          <Box sx={{ padding: "0 2rem" }}>
             <h1>view profile</h1>
             {/* peopleConnectionType */}
-            {/* showDisplayElement */}
-            <IsMyFriend />
+            {showDisplayElement}
+            {/* <IsMyFriend /> */}
             {/* <IsMyProfile/> */}
             {/* <IsSentMeConnection/> */}
             {/* <Default /> */}
           </Box>
-
         </Box>
       )}
     </div>
