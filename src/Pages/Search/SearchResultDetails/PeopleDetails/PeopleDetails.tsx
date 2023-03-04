@@ -194,8 +194,8 @@ const PeopleDetails = () => {
           <Box sx={{ padding: '0 2rem' }}>
             <h1>view profile</h1>
             {/* peopleConnectionType */}
-            {/* showDisplayElement */}
-            <IsMyFriend />
+            {showDisplayElement}
+            {/* <IsMyFriend /> */}
             {/* <IsMyProfile/> */}
             {/* <IsSentMeConnection/> */}
             {/* <Default /> */}
