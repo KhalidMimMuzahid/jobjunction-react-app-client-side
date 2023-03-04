@@ -19,7 +19,13 @@ export const MY_PROFILE_CONTAINER = styled(Box)(({ theme }) => ({
         boxShadow: "1px 2px 3px #ff1714",
         // padding: "5px 8px",
 
-    }
+    },
+    '& .userName':{
+        fontSize: '2rem',
+        fontWeight: 900,
+
+    },
+
 }))
 
 
@@ -29,9 +35,9 @@ export const BACKGROUND_PROFILE_IMG_CONTAINER = styled(Box)(({ theme }) => ({
     position: 'relative',
     top: '0',
     left: '0',
-    '& button': {
+    '& .bgImgContainer button': {
         position: 'absolute',
-        bottom: '-40px',
+        bottom: '-50px',
         right: '10px',
         color: '#ff1714',
         border: '1px solid #ff1714'
@@ -47,6 +53,12 @@ export const BACKGROUND_PROFILE_IMG_CONTAINER = styled(Box)(({ theme }) => ({
         '@media (max-width:600px)': {
             width: '100px',
             height: '100px',
+          },
+    },
+    '& .bgImgContainer': {
+        height: '200px',
+        '@media (max-width:600px)': {
+            height: '150px',
           },
     }
     // zIndex: '-1'

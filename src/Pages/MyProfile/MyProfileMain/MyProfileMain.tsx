@@ -14,6 +14,8 @@ import { MyContext } from "../../../context/MyProvider/MyProvider";
 import EditIcon from '@mui/icons-material/Edit';
 import { BACKGROUND_PROFILE_IMG_CONTAINER, MY_PROFILE_CONTAINER } from "./MyProfileMain.styled";
 import ProfileEditModal from "./ProfileEditModal/ProfileEditModal";
+import {useMyProfile} from '../../../useHooks/useMyProfile/useMyProfile';
+import Loader from "../../../Components/Loader/Loader";
 
 const MyProfileMain = () => {
 
@@ -22,11 +24,21 @@ const MyProfileMain = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const { currentUser } = React.useContext(MyContext)
+  const { currentUser, isLoading } = React.useContext(MyContext)
 
   const { displayName, photoURL } = currentUser
 
-  // const 
+  // get the user updated data in mongodb store 
+  const { data: userUpdateData} = useMyProfile()
+  // console.log("data---------->", userUpdateData)
+  const {coverImgLink, email, location, name, profilePhoto, title, uid, phone, city} = userUpdateData;
+  // console.log("coverImgLink", coverImgLink)
+
+  if(isLoading){
+    return <div>loading.....</div>
+  }
+
+
 
   return (
     <MY_PROFILE_CONTAINER>
@@ -36,12 +48,12 @@ const MyProfileMain = () => {
             {/* profile img or background img area start */}
             <BACKGROUND_PROFILE_IMG_CONTAINER className="userImg_and_bgImg_container">
               {/* background img  start */}
-              <Box className="bgImgContainer" sx={{ width: "100%" }}>
-                <img width={'100%'} src="https://media.licdn.com/dms/image/D5616AQEvdIjzJzVe8A/profile-displaybackgroundimage-shrink_350_1400/0/1670510690803?e=1683158400&v=beta&t=tmINKTLZRWsGia0F1I9AY-zIM6nCKJQl3UeOBTWf7dw" alt="" />
+              <div  className="bgImgContainer" style={{background: coverImgLink? `#4421FB url(${coverImgLink}) no-repeat center center` : `#4421FB url(https://i.ibb.co/4WxpyTK/linkdinecoverphto.jpg) no-repeat center center`, backgroundSize: 'cover', overflow: 'hidden' }} >
+                {/* <img style={{width: '100%', maxHeight: '11.119vw'}} src={coverImgLink? coverImgLink : `https://i.ibb.co/4WxpyTK/linkdinecoverphto.jpg`} alt={name} /> */}
                 <IconButton title="Edit" onClick={handleOpen}>
                   <EditIcon />
                 </IconButton>
-              </Box>
+              </div>
 
               {/* background img end */}
 
@@ -49,8 +61,8 @@ const MyProfileMain = () => {
               <div>
                 <Avatar
                   className="profileImg"
-                  alt={displayName}
-                  src={photoURL}
+                  alt={name}
+                  src={profilePhoto? profilePhoto : undefined}
                 />
               </div>
               {/* profile img end */}
@@ -60,17 +72,17 @@ const MyProfileMain = () => {
 
 
             <CardContent style={{ margin: "2em 20px" }}>
-              <Typography gutterBottom variant="h5" sx={{ m: 0 }} component="div">
-                {displayName}
+              <Typography className="userName" gutterBottom variant="h5" sx={{ m: 0 }} component='h3'>
+                {name}
               </Typography>
               <Typography variant="h6" color="text.secondary">
-                Web Developer
+                {title}
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 #Talk about html css js and react
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Chittagong,Bangladesh.{" "}
+                <span>{`${location} ${city}`}</span>{" "}
                 <Link
                   to={""}
                   style={{
@@ -79,7 +91,7 @@ const MyProfileMain = () => {
                     fontWeight: "700",
                   }}
                 >
-                  Contact Info
+                  {phone ? phone : `Contact Info`}
                 </Link>
               </Typography>
             </CardContent>
