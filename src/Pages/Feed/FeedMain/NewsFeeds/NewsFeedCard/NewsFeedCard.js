@@ -64,10 +64,12 @@ export default function NewsFeedCard({ data, setRefreshAllPost }) {
   // }
 
   useEffect(() => {
+
     const isLiked2 = allLikes.findIndex(
       (email) => email === currentUser?.email
     );
     console.log(isLiked2);
+    
     if (isLiked2 !== -1) {
       setIsLiked(true);
     }
@@ -120,11 +122,9 @@ export default function NewsFeedCard({ data, setRefreshAllPost }) {
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            <img
-              style={{ height: "50px", width: "50px" }}
-              src={userLogo}
-              alt={userName}
-            />
+
+            <img style={{height: "50px", width: "50px"}} src={userLogo} alt={userName} />
+
           </Avatar>
         }
         action={
@@ -219,7 +219,7 @@ export default function NewsFeedCard({ data, setRefreshAllPost }) {
           <span>{isLiked ? "Liked" : "Like"}</span>
         </LCRSBTN>
 
-        {console.log(isLiked)}
+
 
         <LCRSBTN>
           {/* comment btn */}
@@ -246,7 +246,8 @@ export default function NewsFeedCard({ data, setRefreshAllPost }) {
         </LCRSBTN>
       </Box>
 
-      <UserComment />
+        <UserComment id={_id}/>
+
     </Card>
   );
 }

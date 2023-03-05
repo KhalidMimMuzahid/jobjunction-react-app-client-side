@@ -35,6 +35,7 @@ const SingleJob = () => {
   // console.log(currentUser?.email)
 
 
+
     // useEffect(() => {
     setTimeout(() => {
         const isApplyed2 = totalApplyed.findIndex((email: any) => email === currentUser?.email)
@@ -72,6 +73,7 @@ const SingleJob = () => {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+
 
   return (
     <Box sx={{ display: "flex", justifyContent: "center" }}>
