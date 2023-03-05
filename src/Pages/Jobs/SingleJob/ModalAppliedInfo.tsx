@@ -3,47 +3,23 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import { EDIT_CONTAINER, ISERT_FIELD, MODAL_BODY } from './ProfileEditModal.styled';
 import { IconButton, TextField } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
 import GetAppIcon from '@mui/icons-material/GetApp';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { MyContext } from '../../../../context/MyProvider/MyProvider';
-import uploadImageToImageBB from "../../../../utilities/uploadImageToImageBB/uploadImageToImageBB";
 import { toast } from "react-toastify";
+import { MyContext } from "../../../context/MyProvider/MyProvider";
+import { EDIT_CONTAINER, ISERT_FIELD, MODAL_BODY } from "../../MyProfile/MyProfileMain/ProfileEditModal/ProfileEditModal.styled";
+import uploadImageToImageBB from "../../../utilities/uploadImageToImageBB/uploadImageToImageBB";
 
 
 
-const ProfileEditModal = (props: any) => {
+const ModalAppliedInfo = (props: any) => {
     const { open, setOpen, handleOpen, handleClose } = props
     const [allInputDatas, setAllInputData] = React.useState<any>({})
     const { currentUser } = React.useContext(MyContext);
 
-    const [isHereProfileImg, setIsHereProfileImg] = React.useState<any>({});
-    const [isHereCoverImg, setIsHereCoverImg] = React.useState<any>({});
-    const [photoHandle, setPhotoHandle] = React.useState<any>({});
-    // const [profileImg, setProfileImg] = React.useState("")
-
-    // const handlephotoHandle = (e: any) => {
-         
-    //     console.log("e.target.files", e.target.value)
-         
-
-    //     const field = e.target.name;
-    //     let newPhotoHandle = { ...photoHandle }
-    //     if (e.target.value) {
-    //         console.log("isaddedd")
-    //         newPhotoHandle[field] = e.target.files;
-    //         setPhotoHandle(newPhotoHandle)
-    //     }
-    //     else {
-    //         console.log("is removed")
-    //         newPhotoHandle[field] = false;
-    //         setPhotoHandle(newPhotoHandle)
-    //     }
-    // }
-
-
+ 
     type Inputs = {
         profileImg: FileList;
         coverImg: FileList;
@@ -131,45 +107,6 @@ const ProfileEditModal = (props: any) => {
                                 </IconButton>
                             </Box>
                         <EDIT_CONTAINER spacing={3}>
-                            {/* profile img input start */}
-                            <Box>
-                                <Typography component="h2" className="titleLabel">Profile Photo</Typography>
-                                <ISERT_FIELD >
-                                    <label htmlFor="file-input1">
-                                        <IconButton>
-                                            <GetAppIcon />
-                                        </IconButton>
-                                    </label>
-                                    <input
-                                        {...register("profileImg")}
-                                        // name="profilePhoto"  
-                                        id="file-input1" 
-                                        type="file"
-                                         />
-                                    {/* <TextField id="file-input" size='small' fullWidth type="file" /> */}
-                                </ISERT_FIELD>
-                            </Box>
-                            {/* LOCATION input end */}
-
-                            {/* cover photo  input start */}
-                            <Box>
-                                <Typography component="h2" className="titleLabel">Cover Photo</Typography>
-                                <ISERT_FIELD>
-                                    <label className={photoHandle?.coverPhoto ? "isFile" : undefined} htmlFor="file-input2">
-                                        <IconButton>
-                                            <GetAppIcon />
-                                        </IconButton>
-                                    </label>
-                                    <input
-                                        {...register("coverImg")}
-                                        // onChange={handlephotoHandle}
-                                        // name="coverPhoto"
-                                        id="file-input2" type="file" />
-                                    {/* <TextField id="file-input" size='small' fullWidth type="file" /> */}
-                                </ISERT_FIELD>
-                            </Box>
-                            {/*cover photo  input end */}
-
                             {/* name input start */}
                             <Box>
                                 {/* <Typography component="h2">YOUR NAME</Typography> */}
@@ -233,4 +170,4 @@ const ProfileEditModal = (props: any) => {
     );
 };
 
-export default ProfileEditModal;
+export default ModalAppliedInfo;

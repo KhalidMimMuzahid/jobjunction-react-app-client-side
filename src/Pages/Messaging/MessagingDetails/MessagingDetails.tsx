@@ -36,7 +36,7 @@ const MessagingDetails = () => {
 
   const [socketConnected, setSocketConnected] = React.useState(false);
   const [isConnectionSent, setIsConnectionSent] = React.useState(false);
-  socket?.emit("join chat", currentUser);
+  socket?.emit("join chat", currentUser?.email);
   useEffect(() => {
     if (currentUser?.uid) {
       socket = io(ENDPOINT);
