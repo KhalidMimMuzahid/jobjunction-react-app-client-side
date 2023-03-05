@@ -40,7 +40,7 @@ const PeopleDetails = () => {
       if (_id) {
         console.log("hitted");
         const res = await fetch(
-          `http://localhost:5000/searchpeople?_id=${_id}`
+          `${process.env.REACT_APP_server_link}/searchpeople?_id=${_id}`
         );
         setIsMyProfile(false);
         setIsMyFriends(false);
@@ -116,9 +116,9 @@ const PeopleDetails = () => {
   });
 
   console.log("Peopleeeeeeeeee", people);
-  // if (isLoadingForUseProfile || isLoading) {
-  //   return <Loader type="" />;
-  // }
+  if (isLoadingForUseProfile || isLoading) {
+    return <Loader type="" />;
+  }
   const handleConnectionAction = () => {
     switch (isConnectionSent) {
       case true:
@@ -128,7 +128,7 @@ const PeopleDetails = () => {
           recieverEmail: people?.email,
         };
 
-        fetch("http://localhost:5000/caancelconnection", {
+        fetch(`${process.env.REACT_APP_server_link}/caancelconnection`, {
           method: "PUT",
           headers: {
             "content-type": "application/json",
@@ -154,7 +154,7 @@ const PeopleDetails = () => {
           },
           receiverEmail: people?.email,
         };
-        fetch("http://localhost:5000/addconnecion", {
+        fetch(`${process.env.REACT_APP_server_link}/addconnecion`, {
           method: "PUT",
           headers: {
             "content-type": "application/json",

@@ -53,7 +53,8 @@ export const router = createBrowserRouter([
       {
         path: "/jobs/:id",
         element: <SingleJob />,
-        loader: ({ params }) => fetch(`http://localhost:5000/jobs/${params.id}`)
+        loader: ({ params }) =>
+          fetch(`${process.env.REACT_APP_server_link}/jobs/${params.id}`),
       },
       {
         path: "/my-profile",

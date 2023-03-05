@@ -23,7 +23,7 @@ import EachMessage from "./EachMessage/EachMessage";
 import { toast } from "react-toastify";
 import { io } from "socket.io-client";
 import { SearchContext } from "../../../context/SearchPovider/SearchPovider";
-const ENDPOINT = "http://localhost:5000";
+const ENDPOINT: any = process.env.REACT_APP_server_link;
 let socket: any, selectedChatCompare: any;
 const MessagingDetails = () => {
   const { setRefreshMessageListToggle } = useContext(SearchContext);
@@ -36,10 +36,11 @@ const MessagingDetails = () => {
 
   const [socketConnected, setSocketConnected] = React.useState(false);
   const [isConnectionSent, setIsConnectionSent] = React.useState(false);
-  socket?.emit("join chat", currentUser?.email);
+  // socket?.emit("join chat", currentUser);
   useEffect(() => {
-    if (currentUser?.uid) {
+    if (currentUser?.email) {
       socket = io(ENDPOINT);
+      socket?.emit("join chat", currentUser?.email);
       // socket.emit("setup", currentUser);
       // socket.on("connected", () => setSocketConnected(true));
     }
@@ -47,7 +48,7 @@ const MessagingDetails = () => {
   }, []);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/chatInfo?chatId=${chatId}`)
+    fetch(`${process.env.REACT_APP_server_link}/chatInfo?chatId=${chatId}`)
       .then((res) => res.json())
       .then((data) => {
         setChatInfo(data);
@@ -64,7 +65,9 @@ const MessagingDetails = () => {
           );
           const userEmail = userObject?.email;
           console.log("userEmail: ", userEmail);
-          fetch(`http://localhost:5000/userProfile?email=${userEmail}`)
+          fetch(
+            `${process.env.REACT_APP_server_link}/userProfile?email=${userEmail}`
+          )
             .then((res) => res.json())
             .then((data) => {
               // console.log("this is another user: ", data);
@@ -89,7 +92,7 @@ const MessagingDetails = () => {
     queryKey: [chatId],
     queryFn: async () => {
       const res = await fetch(
-        `http://localhost:5000/search-messages?chatId=${chatId}`
+        `${process.env.REACT_APP_server_link}/search-messages?chatId=${chatId}`
       );
       const data = await res.json();
       // console.log(
@@ -118,7 +121,7 @@ const MessagingDetails = () => {
       message,
       senderEmail: currentUser.email,
     };
-    fetch("http://localhost:5000/sendMessage", {
+    fetch(`${process.env.REACT_APP_server_link}/sendMessage`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -142,7 +145,7 @@ const MessagingDetails = () => {
   };
   useEffect(() => {
     socket.on("message recieved", (messageInfo: any) => {
-      // console.log("you received message", messageInfo);
+      console.log("you received message", messageInfo);
       refetch();
       setRefreshMessageListToggle((prev: any) => !prev);
     });

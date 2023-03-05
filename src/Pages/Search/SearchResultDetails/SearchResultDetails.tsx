@@ -8,7 +8,7 @@ import PeopleDetails from "./PeopleDetails/PeopleDetails";
 import JobDetails from "./JobDetails/JobDetails";
 import DefaultDetails from "./DefaultDetails/DefaultDetails";
 
-// const ENDPOINT = "http://localhost:5000";
+// const ENDPOINT = process.env.REACT_APP_server_link;
 // let socket, selectedChatCompare;
 const SearchResultDetails = () => {
   const { searchType } = React.useContext(SearchContext);
@@ -43,7 +43,7 @@ const SearchResultDetails = () => {
   // const _id = useLoaderData();
   // console.log("_id: ", _id);
   // if (_id) {
-  //   fetch(`http://localhost:5000/searchpeople?_id=${_id}`)
+  //   fetch(`${process.env.REACT_APP_server_link}/searchpeople?_id=${_id}`)
   //     .then((res) => res.json())
   //     .then((data) => {
   //       setPeople(data);

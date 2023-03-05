@@ -10,22 +10,21 @@ const NewsFeeds = () => {
 
   const [datas, setData] = React.useState(null);
   const [refreshAllPost, setRefreshAllPost] = React.useState(false);
-  const [isNewsFeedLoading, setIsNewsFeedLoading] = React.useState(true)
+  const [isNewsFeedLoading, setIsNewsFeedLoading] = React.useState(true);
 
   React.useEffect(() => {
-    setIsNewsFeedLoading(true)
+    setIsNewsFeedLoading(true);
     fetch(`${process.env.REACT_APP_server_link}/allposts`)
       .then((res) => res.json())
       .then((value) => {
         setData(value?.data?.reverse());
-        setIsNewsFeedLoading(false)
+        setIsNewsFeedLoading(false);
         // console.log(data)
       });
   }, [refreshAllPost]);
 
-
-  if(isNewsFeedLoading){
-    return <Loader />
+  if (isNewsFeedLoading) {
+    return <Loader />;
   }
   // const NewsFeedCards = [
   //   {
@@ -67,7 +66,11 @@ const NewsFeeds = () => {
       <NewsFeedContainer>
         {datas &&
           datas?.map((data, i) => (
-            <NewsFeedCard key={i} data={data} setRefreshAllPost={setRefreshAllPost}></NewsFeedCard>
+            <NewsFeedCard
+              key={i}
+              data={data}
+              setRefreshAllPost={setRefreshAllPost}
+            ></NewsFeedCard>
           ))}
       </NewsFeedContainer>
     </Container>

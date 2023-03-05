@@ -1,3 +1,4 @@
+
 import { Button } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useContext, useState, useEffect } from 'react';
@@ -6,18 +7,33 @@ import { toast } from 'react-toastify';
 import { MyContext } from '../../../context/MyProvider/MyProvider';
 import ModalAppliedInfo from './ModalAppliedInfo';
 
+
 const SingleJob = () => {
-    const data: any = useLoaderData()
-    const [isApplyed, setIsApplyed] = useState(false)
+  const data: any = useLoaderData();
+  const [isApplyed, setIsApplyed] = useState(false);
 
-    const { currentUser } = useContext(MyContext)
+  const { currentUser } = useContext(MyContext);
 
-    const { companyImg, companyName, jobDescription, jobLocation, jobTitle, postDate, userEmail, requireMents, responsibilities, skillSets, _id, totalApplyed } = data?.data
+  const {
+    companyImg,
+    companyName,
+    jobDescription,
+    jobLocation,
+    jobTitle,
+    postDate,
+    userEmail,
+    requireMents,
+    responsibilities,
+    skillSets,
+    _id,
+    totalApplyed,
+  } = data?.data;
 
-    const splitedTime = postDate.split('T')
+  const splitedTime = postDate.split("T");
 
-    // console.log(data.data)
-    // console.log(currentUser?.email)
+  // console.log(data.data)
+  // console.log(currentUser?.email)
+
 
     // useEffect(() => {
     setTimeout(() => {
@@ -57,16 +73,20 @@ const SingleJob = () => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    return (
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <Box sx={{}}>
-                <div style={{ display: "flex", justifyContent: "center" }}>
-                    <img style={{ width: "50%", margin: "0 auto" }} src={companyImg} alt="" />
-                </div>
-                <h1>Vacancy: {jobTitle}</h1>
-                <h3>Post Date: {splitedTime[0]}</h3>
-                <h3>Company Name: {companyName}</h3>
-                <h3>Job Description: {jobDescription}</h3>
+  return (
+    <Box sx={{ display: "flex", justifyContent: "center" }}>
+      <Box sx={{}}>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <img
+            style={{ width: "50%", margin: "0 auto" }}
+            src={companyImg}
+            alt=""
+          />
+        </div>
+        <h1>Vacancy: {jobTitle}</h1>
+        <h3>Post Date: {splitedTime[0]}</h3>
+        <h3>Company Name: {companyName}</h3>
+        <h3>Job Description: {jobDescription}</h3>
 
                 <h3>Requirements: {requireMents?.map((req: any, i:any) => <li key={i}>{req}</li>)}</h3>
 
@@ -74,8 +94,10 @@ const SingleJob = () => {
 
                 <h3>Responseibility: {responsibilities?.map((res: any, i: any) => <li key={i}>{res}</li>)}</h3>
 
-                <h3>Job Location: {jobLocation}</h3>
-                <h3>Contact Email: {userEmail}</h3>
+
+        <h3>Job Location: {jobLocation}</h3>
+        <h3>Contact Email: {userEmail}</h3>
+
 
                 <Box sx={{ display: "flex", justifyContent: "center", marginBottom: "4em", marginTop: "1em" }}>
                     <Button variant='outlined' onClick={handleOpen}>
@@ -91,8 +113,11 @@ const SingleJob = () => {
                 handleOpen={handleOpen}
                 handleClose={handleClose}
             />
+
         </Box>
-    );
+      </Box>
+    </Box>
+  );
 };
 
 export default SingleJob;
