@@ -43,9 +43,15 @@ const SingleJob = () => {
             }
         }).then(res => res.json())
             .then(data => {
-                console.log(data)
-                setIsApplyed(true)
-                toast.success("Successfully applied")
+                console.log("data.data.modifiedCount", data.data)
+                console.log("data", data)
+                if(data?.data?.modifiedCount){
+                    setIsApplyed(true)
+                    toast.success("Successfully applied")
+                }
+                else{
+                    toast.error("Something error happened")
+                }
             })
     }
 

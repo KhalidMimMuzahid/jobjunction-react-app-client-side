@@ -25,7 +25,7 @@ const MyNetworkMain = () => {
       <Stack>
         <INVITATION paddingX={2}>
           <h5>Invitations</h5>
-          <h5>See all 5</h5>
+          <h5>See all</h5>
         </INVITATION>
 
         <>
