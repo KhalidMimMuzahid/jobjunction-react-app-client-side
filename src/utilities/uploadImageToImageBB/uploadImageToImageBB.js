@@ -1,5 +1,5 @@
 const uploadImageToImageBB = (image) => {
-  //   console.log("image", image);
+    console.log("image", image);
   const imageHostKey = process.env.REACT_APP_imagebb_key;
   //   console.log(imageHostKey);
   const url = `https://api.imgbb.com/1/upload?key=${imageHostKey}`;

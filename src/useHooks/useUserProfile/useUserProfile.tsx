@@ -6,7 +6,7 @@ export const useUserProfile = (email: string) => {
   const [userProfile, setUserProfile] = React.useState({});
   //   useEffect(()=>{
   // if(currentUser && currentUser?.uid){
-  //     fetch(`http://localhost:5000/myprofile?uid=${currentUser?.uid}`)
+  //     fetch(`${process.env.REACT_APP_server_link}/myprofile?uid=${currentUser?.uid}`)
   // }
 
   //   }, [currentUser])
@@ -26,7 +26,7 @@ export const useUserProfile = (email: string) => {
     queryFn: async () => {
       if (email) {
         const res = await fetch(
-          `http://localhost:5000/userProfile?email=${email}`
+          `${process.env.REACT_APP_server_link}/userProfile?email=${email}`
         );
         const data = await res.json();
         console.log("fucking user:", data);

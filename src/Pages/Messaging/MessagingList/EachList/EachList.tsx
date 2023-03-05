@@ -19,6 +19,7 @@ const EachList = (props: any) => {
   const [chatProfilePhoto, setChatProfilePhoto] = React.useState("");
   const [chatName, setChatName] = React.useState("");
   const { currentUser } = React.useContext(MyContext);
+
   const { eachList } = props;
   const navigate = useNavigate();
   //   let users: [];
@@ -41,7 +42,7 @@ const EachList = (props: any) => {
     );
     const userEmail = userObject?.email;
     console.log("userEmail: ", userEmail);
-    fetch(`http://localhost:5000/userProfile?email=${userEmail}`)
+    fetch(`${process.env.REACT_APP_server_link}/userProfile?email=${userEmail}`)
       .then((res) => res.json())
       .then((data) => {
         console.log("this is another user: ", data);

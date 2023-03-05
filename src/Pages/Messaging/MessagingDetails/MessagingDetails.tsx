@@ -21,17 +21,39 @@ import { useQuery } from "@tanstack/react-query";
 import { MyContext } from "../../../context/MyProvider/MyProvider";
 import EachMessage from "./EachMessage/EachMessage";
 import { toast } from "react-toastify";
+import { io } from "socket.io-client";
+import { SearchContext } from "../../../context/SearchPovider/SearchPovider";
+const ENDPOINT: any = process.env.REACT_APP_server_link;
+let socket: any, selectedChatCompare: any;
 const MessagingDetails = () => {
+  const { setRefreshMessageListToggle } = useContext(SearchContext);
   const { currentUser } = useContext(MyContext);
   const [chatProfilePhoto, setChatProfilePhoto] = React.useState("");
   const [chatName, setChatName] = React.useState("");
+  const [chatInfo, setChatInfo] = React.useState({});
   const chatId = useLoaderData();
   console.log("chatId: ", chatId);
+
+  const [socketConnected, setSocketConnected] = React.useState(false);
+  const [isConnectionSent, setIsConnectionSent] = React.useState(false);
+  // socket?.emit("join chat", currentUser);
   useEffect(() => {
-    fetch(`http://localhost:5000/chatInfo?chatId=${chatId}`)
+    if (currentUser?.email) {
+      socket = io(ENDPOINT);
+      socket?.emit("join chat", currentUser?.email);
+      // socket.emit("setup", currentUser);
+      // socket.on("connected", () => setSocketConnected(true));
+    }
+    // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_server_link}/chatInfo?chatId=${chatId}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww", data);
+        setChatInfo(data);
+        // socket?.emit("join chat", chatId);
+        // socket?.emit("join chat", currentUser);
         if (data?.isGroupChat) {
           setChatProfilePhoto(data?.chatProfilePhoto);
           setChatName(data?.chatName);
@@ -43,7 +65,9 @@ const MessagingDetails = () => {
           );
           const userEmail = userObject?.email;
           console.log("userEmail: ", userEmail);
-          fetch(`http://localhost:5000/userProfile?email=${userEmail}`)
+          fetch(
+            `${process.env.REACT_APP_server_link}/userProfile?email=${userEmail}`
+          )
             .then((res) => res.json())
             .then((data) => {
               // console.log("this is another user: ", data);
@@ -53,6 +77,7 @@ const MessagingDetails = () => {
         }
       });
   }, [chatId]);
+
   const {
     data: messages,
     error,
@@ -67,13 +92,13 @@ const MessagingDetails = () => {
     queryKey: [chatId],
     queryFn: async () => {
       const res = await fetch(
-        `http://localhost:5000/search-messages?chatId=${chatId}`
+        `${process.env.REACT_APP_server_link}/search-messages?chatId=${chatId}`
       );
       const data = await res.json();
-      console.log(
-        "resultxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx: ",
-        data
-      );
+      // console.log(
+      //   "resultxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx: ",
+      //   data
+      // );
       return data;
     },
   });
@@ -96,7 +121,7 @@ const MessagingDetails = () => {
       message,
       senderEmail: currentUser.email,
     };
-    fetch("http://localhost:5000/sendMessage", {
+    fetch(`${process.env.REACT_APP_server_link}/sendMessage`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -112,9 +137,20 @@ const MessagingDetails = () => {
         if (data?.acknowledged) {
           e.target.reset();
           refetch();
+          setRefreshMessageListToggle((prev: any) => !prev);
+          const messageDetailsInfo = { messageInfo, chatInfo };
+          socket.emit("new message", messageDetailsInfo);
         }
       });
   };
+  useEffect(() => {
+    socket.on("message recieved", (messageInfo: any) => {
+      console.log("you received message", messageInfo);
+      refetch();
+      setRefreshMessageListToggle((prev: any) => !prev);
+    });
+  });
+
   return (
     <MESSAGINGCHATINGCONTAINER
       sx={{ position: "relative", paddingY: ".75rem", paddingBottom: "70px" }}

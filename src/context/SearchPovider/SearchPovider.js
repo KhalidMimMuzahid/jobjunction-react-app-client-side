@@ -9,6 +9,8 @@ const SearchPovider = ({ children }) => {
 
   const [searchBarIsOpen, setSearchBarIsOpen] = useState(false);
   const [shouldNavigate, setShouldNavigate] = useState(false);
+  const [refreshMessageListToggle, setRefreshMessageListToggle] =
+    useState(false);
   const [searchKey, setSearchKey] = useState("");
   const [searchType, setSearchType] = useState("People");
   const [filterInfo, setFilterInfo] = useState({});
@@ -36,7 +38,7 @@ const SearchPovider = ({ children }) => {
   //       searchType,
   //       filterInfo,
   //     };
-  //     const res = await fetch("http://localhost:5000/search", {
+  //     const res = await fetch(`${process.env.REACT_APP_server_link}/search`, {
   //       headers: {
   //         "content-type": "application/json",
   //         data: JSON.stringify(allFilter),
@@ -60,6 +62,8 @@ const SearchPovider = ({ children }) => {
     setFilterInfo,
     searchResultList,
     setSearchResultList,
+    refreshMessageListToggle,
+    setRefreshMessageListToggle,
   };
   return (
     <SearchContext.Provider value={info}> {children} </SearchContext.Provider>

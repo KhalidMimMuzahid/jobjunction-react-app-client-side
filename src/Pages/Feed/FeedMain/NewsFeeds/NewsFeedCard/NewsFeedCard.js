@@ -45,9 +45,9 @@ const ExpandMore = styled((props) => {
 
 export default function NewsFeedCard({ data, setRefreshAllPost }) {
   // destructure all newsFeed
-  const [isLiked, setIsLiked] = React.useState(false)
-  const { data: data1, isLoading, refetch } = useMyProfile()
-  const { currentUser } = useContext(MyContext)
+  const [isLiked, setIsLiked] = React.useState(false);
+  const { data: data1, isLoading, refetch } = useMyProfile();
+  const { currentUser } = useContext(MyContext);
   const {
     postDescription,
     postImage,
@@ -63,58 +63,58 @@ export default function NewsFeedCard({ data, setRefreshAllPost }) {
   //   return <Loader type="" />
   // }
 
-
   useEffect(() => {
-    const isLiked2 = allLikes.findIndex((email) => email === currentUser?.email)
-    // console.log(isLiked2)
+
+    const isLiked2 = allLikes.findIndex(
+      (email) => email === currentUser?.email
+    );
+    console.log(isLiked2);
+    
     if (isLiked2 !== -1) {
-      setIsLiked(true)
+      setIsLiked(true);
     }
-  }, [])
+  }, []);
 
   const info = {
     _id,
-    email: data1?.email
-  }
+    email: data1?.email,
+  };
 
   // liking api handel
   const handelLike = () => {
     switch (isLiked) {
       case true:
-        fetch('http://localhost:5000/dislikeapost', {
+        fetch(`${process.env.REACT_APP_server_link}/dislikeapost`, {
           method: "PUT",
           headers: {
             "content-type": "application/json",
-            info: JSON.stringify(info)
-          }
+            info: JSON.stringify(info),
+          },
         })
-          .then(res => res.json())
-          .then(data => {
-            console.log(data)
-            setIsLiked(false)
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            setIsLiked(false);
             setRefreshAllPost((prev) => !prev);
-          })
+          });
         break;
 
       default:
-        fetch('http://localhost:5000/likeapost', {
+        fetch(`${process.env.REACT_APP_server_link}/likeapost`, {
           method: "PUT",
           headers: {
             "content-type": "application/json",
-            info: JSON.stringify(info)
-          }
+            info: JSON.stringify(info),
+          },
         })
-          .then(res => res.json())
-          .then(data => {
-            console.log(data)
-            setIsLiked(true)
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            setIsLiked(true);
             setRefreshAllPost((prev) => !prev);
-          })
+          });
     }
-
-  }
-
-
+  };
 
   return (
     // single NewsFeed Cards
@@ -122,7 +122,9 @@ export default function NewsFeedCard({ data, setRefreshAllPost }) {
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+
             <img style={{height: "50px", width: "50px"}} src={userLogo} alt={userName} />
+
           </Avatar>
         }
         action={
@@ -203,17 +205,20 @@ export default function NewsFeedCard({ data, setRefreshAllPost }) {
           borderTop: "1.5px solid #eee",
         }}
       >
-
-
         {/* like btn */}
-        <LCRSBTN onClick={handelLike} style={{ color: isLiked ? "red" : "black", backgroundColor: isLiked ? "#EBEBEB" : "white" }}>
+        <LCRSBTN
+          onClick={handelLike}
+          style={{
+            color: isLiked ? "red" : "black",
+            backgroundColor: isLiked ? "#EBEBEB" : "white",
+          }}
+        >
           <IconButton>
             <ThumbUpOutlinedIcon fontSize="small" />
           </IconButton>
           <span>{isLiked ? "Liked" : "Like"}</span>
         </LCRSBTN>
 
-{/* {console.log(isLiked)} */}
 
 
         <LCRSBTN>

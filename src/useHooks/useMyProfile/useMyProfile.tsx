@@ -6,9 +6,12 @@ export const useMyProfile = () => {
   const { currentUser } = useContext(MyContext);
   // const [isLoading, setIsLoading] = React.useState(true)
   const [myProfile, setMyProfile] = React.useState({});
+
+  console.log("hitting", currentUser);
+
   //   useEffect(()=>{
   // if(currentUser && currentUser?.uid){
-  //     fetch(`http://localhost:5000/myprofile?uid=${currentUser?.uid}`)
+  //     fetch(`${process.env.REACT_APP_server_link}/myprofile?uid=${currentUser?.uid}`)
   // }
 
   //   }, [currentUser])
@@ -28,10 +31,10 @@ export const useMyProfile = () => {
     queryFn: async () => {
       if (currentUser?.uid) {
         const res = await fetch(
-          `http://localhost:5000/myprofile?uid=${currentUser?.uid}`
+          `${process.env.REACT_APP_server_link}/myprofile?uid=${currentUser?.uid}`
         );
         const data = await res.json();
-
+        console.log("usehoook:", data);
         return data;
       } else {
         return "user not found";

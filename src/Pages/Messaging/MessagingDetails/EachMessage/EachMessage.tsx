@@ -15,7 +15,7 @@ const EachMessage = (props: any) => {
   if (eachMessage?.sender?.email !== currentUser?.email) {
     // this is not my message
     fetch(
-      `http://localhost:5000/userProfile?email=${eachMessage?.sender?.email}`
+      `${process.env.REACT_APP_server_link}/userProfile?email=${eachMessage?.sender?.email}`
     )
       .then((res) => res.json())
       .then((data) => {

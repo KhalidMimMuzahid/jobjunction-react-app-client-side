@@ -16,7 +16,7 @@ import MyProfileRight from "./MyProfileRight/MyProfileRight";
 
 const MyProfile = () => {
   const location = useLocation();
-  console.log(location.pathname);
+  // console.log(location.pathname);
   let gridTemplateColumnsFormLayout;
   let displayFormLayout;
   if (location?.pathname === "/my-profile") {
