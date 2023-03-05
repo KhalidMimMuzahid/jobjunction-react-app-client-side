@@ -68,17 +68,17 @@ const SingleJob = () => {
                 <h3>Company Name: {companyName}</h3>
                 <h3>Job Description: {jobDescription}</h3>
 
-                <h3>Requirements: {requireMents?.map((req: any) => <li>{req}</li>)}</h3>
+                <h3>Requirements: {requireMents?.map((req: any, i:any) => <li key={i}>{req}</li>)}</h3>
 
-                <h3>Needed Skills: {skillSets?.map((skill: any) => <li>{skill}</li>)}</h3>
+                <h3>Needed Skills: {skillSets?.map((skill: any, i: any) => <li key={i}>{skill}</li>)}</h3>
 
-                <h3>Responseibility: {responsibilities?.map((res: any) => <li>{res}</li>)}</h3>
+                <h3>Responseibility: {responsibilities?.map((res: any, i: any) => <li key={i}>{res}</li>)}</h3>
 
                 <h3>Job Location: {jobLocation}</h3>
                 <h3>Contact Email: {userEmail}</h3>
 
                 <Box sx={{ display: "flex", justifyContent: "center", marginBottom: "4em", marginTop: "1em" }}>
-                    <Button variant='outlined'  onClick={handleOpen}>
+                    <Button variant='outlined' onClick={handleOpen}>
                         {isApplyed ? "Applyed" : "Apply"}
                     </Button>
                 </Box>

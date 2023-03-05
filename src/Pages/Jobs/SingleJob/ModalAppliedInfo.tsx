@@ -20,8 +20,6 @@ const ModalAppliedInfo = (props: any) => {
 
  
     type Inputs = {
-        profileImg: FileList;
-        coverImg: FileList;
         experience: number;
         ctc: number;
         expectedSalary: number;
@@ -146,11 +144,11 @@ const ModalAppliedInfo = (props: any) => {
                                 {/* <Typography component="h2">LOCATION</Typography> */}
                                 <TextField
                                     {...register("resumeLink")}
-                                    size='small' fullWidth type="number" label='your resume link*' />
+                                    size='small' fullWidth type="text" label='your resume link*' />
                             </Box>
                             {/* resume link input end */}
 
-                            <Box className="submit-btn">
+                            <Box className="submit-btn" sx={{marginBottom: '1rem'}}>
                                 <Button type='submit'>Submit</Button>
                             </Box>
 
