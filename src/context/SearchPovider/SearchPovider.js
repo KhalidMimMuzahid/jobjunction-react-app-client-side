@@ -38,7 +38,7 @@ const SearchPovider = ({ children }) => {
   //       searchType,
   //       filterInfo,
   //     };
-  //     const res = await fetch("http://localhost:5000/search", {
+  //     const res = await fetch(`${process.env.REACT_APP_server_link}/search`, {
   //       headers: {
   //         "content-type": "application/json",
   //         data: JSON.stringify(allFilter),

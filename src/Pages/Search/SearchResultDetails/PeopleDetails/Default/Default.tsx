@@ -16,7 +16,7 @@ const Default = (props: any) => {
     //       recieverEmail: people?.email,
     //     };
 
-    //     fetch("http://localhost:5000/caancelconnection", {
+    //     fetch(`${process.env.REACT_APP_server_link}/caancelconnection`, {
     //       method: "PUT",
     //       headers: {
     //         "content-type": "application/json",
@@ -42,7 +42,7 @@ const Default = (props: any) => {
     //       },
     //       receiverEmail: people?.email,
     //     };
-    //     fetch("http://localhost:5000/addconnecion", {
+    //     fetch(`${process.env.REACT_APP_server_link}/addconnecion`, {
     //       method: "PUT",
     //       headers: {
     //         "content-type": "application/json",
@@ -72,7 +72,7 @@ const Default = (props: any) => {
           },
           receiverEmail: people?.email,
         };
-        fetch("http://localhost:5000/addconnecion", {
+        fetch(`${process.env.REACT_APP_server_link}/addconnecion`, {
           method: "PUT",
           headers: {
             "content-type": "application/json",
@@ -96,7 +96,7 @@ const Default = (props: any) => {
           recieverEmail: people?.email,
         };
 
-        fetch("http://localhost:5000/caancelconnection", {
+        fetch(`${process.env.REACT_APP_server_link}/caancelconnection`, {
           method: "PUT",
           headers: {
             "content-type": "application/json",
@@ -113,7 +113,6 @@ const Default = (props: any) => {
     }
   };
   return (
-
     <DEFAULT_CONTAINER>
       <Button
         style={{
@@ -122,7 +121,10 @@ const Default = (props: any) => {
         onClick={handleConnectionAction}
       >
         {isSent !== -1 ? "cancel Connection" : "Send Connection"}
-        <span onClick={handleConnectionAction} className="hoverEffect"> {isSent !== -1 ? "cancel Connection" : "Send Connection"}</span>
+        <span onClick={handleConnectionAction} className="hoverEffect">
+          {" "}
+          {isSent !== -1 ? "cancel Connection" : "Send Connection"}
+        </span>
       </Button>
     </DEFAULT_CONTAINER>
   );

@@ -18,7 +18,7 @@ const EachMyReq = (props: any) => {
       senderEmail: eachhReq?.senderEmail,
       recieverEmail: myProfile?.email,
     };
-    fetch("http://localhost:5000/caancelconnection", {
+    fetch(`${process.env.REACT_APP_server_link}/caancelconnection`, {
       method: "PUT",
       headers: {
         "content-type": "application/json",
@@ -43,7 +43,7 @@ const EachMyReq = (props: any) => {
       senderInfo: eachhReq,
       recieverInfo: recieverInfo,
     };
-    fetch("http://localhost:5000/acceptconnection", {
+    fetch(`${process.env.REACT_APP_server_link}/acceptconnection`, {
       method: "PUT",
       headers: {
         "content-type": "application/json",

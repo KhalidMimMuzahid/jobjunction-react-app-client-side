@@ -28,7 +28,7 @@ interface EachInfo {
   message: string;
 }
 
-// const ENDPOINT = "http://localhost:5000";
+// const ENDPOINT =process.env.REACT_APP_server_link;
 // let socket: any;
 const MessagingList = () => {
   const { refreshMessageListToggle } = React.useContext(SearchContext);
@@ -73,7 +73,7 @@ const MessagingList = () => {
     queryFn: async () => {
       // socket?.emit("join chat", currentUser);
       const res = await fetch(
-        `http://localhost:5000/messagelists?myEmail=${currentUser?.email}`
+        `${process.env.REACT_APP_server_link}/messagelists?myEmail=${currentUser?.email}`
       );
       const data = await res.json();
       setChatLists(data);
