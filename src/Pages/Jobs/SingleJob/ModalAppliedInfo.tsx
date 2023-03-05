@@ -9,8 +9,7 @@ import GetAppIcon from '@mui/icons-material/GetApp';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { toast } from "react-toastify";
 import { MyContext } from "../../../context/MyProvider/MyProvider";
-import { EDIT_CONTAINER, ISERT_FIELD, MODAL_BODY } from "../../MyProfile/MyProfileMain/ProfileEditModal/ProfileEditModal.styled";
-import uploadImageToImageBB from "../../../utilities/uploadImageToImageBB/uploadImageToImageBB";
+import { EDIT_CONTAINER, MODAL_BODY } from "../../MyProfile/MyProfileMain/ProfileEditModal/ProfileEditModal.styled";
 
 
 
@@ -23,10 +22,12 @@ const ModalAppliedInfo = (props: any) => {
     type Inputs = {
         profileImg: FileList;
         coverImg: FileList;
-        title: string;
-        city: string;
-        location: string;
+        experience: number;
+        ctc: number;
+        expectedSalary: number;
         phone: number | string;
+        noticePeriod: number;
+        resumeLink: string;
     };
 
     const {
@@ -40,52 +41,8 @@ const ModalAppliedInfo = (props: any) => {
 
 
     const handleFormSubmit: SubmitHandler<Inputs> = (data) => {
-        // console.log("allllll daaaaa", data.profileImg)
-        const { title, phone, location, coverImg, profileImg, city } = data;
-        const profileImgPicture = profileImg[0]
-        const coverImgPicture = coverImg[0];
-        uploadImageToImageBB(profileImgPicture)
-        .then(res => res.json())
-        .then((profileImgData)=> {
-            const profileImgLink = profileImgData?.data?.display_url;
-            uploadImageToImageBB(coverImgPicture)
-            .then((res)=> res.json())
-            .then((coverImgData)=> {
-                const coverImgLink = coverImgData?.data?.display_url;
-
-                let userEditInfo = {
-                    title,
-                    phone,
-                    location,
-                    profilePhoto: profileImgLink,
-                    coverImgLink,
-                    name: currentUser?.displayName,
-                    email: currentUser?.email,
-                    city,
-                    
-                }
-             console.log("userEidtInfo", userEditInfo)
-
-                fetch(`http://localhost:5000/updateprofile`, {
-                    method: 'PUT',
-                    headers: {
-                        "Content-Type": "application/json",
-                        // 'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: JSON.stringify(userEditInfo)
-                })
-                .then(res=> res.json())
-                .then(data => {
-                    console.log("success data updated", data)
-                    if(data.data.acknowledged){
-                        reset()
-                        toast.success("Your Bio Data is successfully update")
-                    }
-                })
-            })
-        })
-
-
+        console.log("allllll daaaaa", data)
+        // const { experience, phone , ctc } = data;
     }
 
 
@@ -101,51 +58,68 @@ const ModalAppliedInfo = (props: any) => {
                 <MODAL_BODY>
                     <form onSubmit={handleSubmit(handleFormSubmit)}>
                             <Box className="edit-intro">
-                                <Typography component="h2" className="title">Edit intro</Typography>
+                                <Typography sx={{textTransform: 'uppercase'}} component="h2" className="title">applicant form</Typography>
                                 <IconButton className='clear-btn' onClick={handleClose}>
                                     <ClearIcon />
                                 </IconButton>
                             </Box>
-                        <EDIT_CONTAINER spacing={3}>
+                        <EDIT_CONTAINER spacing={3} sx={{margin: '1rem 0'}}>
                             {/* name input start */}
                             <Box>
                                 {/* <Typography component="h2">YOUR NAME</Typography> */}
                                 <TextField
                                     size='small'
                                     fullWidth type="text"
-                                    label='your name'
+                                    label='Applicant name'
                                     defaultValue={currentUser.displayName}
                                     disabled
                                 // InputProps={{ readOnly: {currentUser.displayName}, disableUnderline: true }}
 
                                 />
                             </Box>
+
                             {/* name input end */}
+
+                            {/* email input start */}
+                            <Box>
+                                {/* <Typography component="h2">YOUR NAME</Typography> */}
+                                <TextField
+                                    size='small'
+                                    fullWidth type="text"
+                                    label='Applicant email'
+                                    defaultValue={currentUser.email}
+                                    disabled
+                                // InputProps={{ readOnly: {currentUser.displayName}, disableUnderline: true }}
+
+                                />
+                            </Box>
+                            {/* email input end */}
+
 
                             {/* title input start */}
                             <Box>
                                 {/* <Typography component="h2">YOUR TITLE</Typography> */}
                                 <TextField
-                                    {...register("title")}
-                                    size='small' fullWidth type="text" label='your title' />
+                                    {...register("experience")}
+                                    size='small' fullWidth type="number" label='Job Experience * years' />
                             </Box>
                             {/* title input end */}
 
-                            {/* CITY input start */}
+                            {/* CTC input start */}
                             <Box>
                                 {/* <Typography component="h2">CITY</Typography> */}
                                 <TextField
-                                    {...register("city")} 
-                                    size='small' fullWidth type="text" label='city' />
+                                    {...register("ctc")} 
+                                    size='small' fullWidth type="number" label='CTC *' />
                             </Box>
-                            {/* CITY input end */}
+                            {/* CTC input end */}
 
                             {/* LOCATION input start */}
                             <Box>
                                 {/* <Typography component="h2">LOCATION</Typography> */}
                                 <TextField
-                                    {...register("location")}
-                                    size='small' fullWidth type="text" label='location' />
+                                    {...register("expectedSalary")}
+                                    size='small' fullWidth type="number" label='expected salary *' />
                             </Box>
                             {/* LOCATION input end */}
 
@@ -154,9 +128,27 @@ const ModalAppliedInfo = (props: any) => {
                                 {/* <Typography component="h2">LOCATION</Typography> */}
                                 <TextField
                                     {...register("phone")}
-                                    size='small' fullWidth type="number" label='phone' />
+                                    size='small' fullWidth type="number" label='phone *' />
                             </Box>
                             {/* phone number input end */}
+
+                            {/* Notice period  input start */}
+                            <Box>
+                                {/* <Typography component="h2">LOCATION</Typography> */}
+                                <TextField
+                                    {...register("noticePeriod")}
+                                    size='small' fullWidth type="number" label='noticePeriod *' />
+                            </Box>
+                            {/* Notice period input end */}
+
+                            {/* resume link  input start */}
+                            <Box>
+                                {/* <Typography component="h2">LOCATION</Typography> */}
+                                <TextField
+                                    {...register("resumeLink")}
+                                    size='small' fullWidth type="number" label='your resume link*' />
+                            </Box>
+                            {/* resume link input end */}
 
                             <Box className="submit-btn">
                                 <Button type='submit'>Submit</Button>
