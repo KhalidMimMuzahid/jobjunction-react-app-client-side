@@ -7,6 +7,9 @@ import Jobs from "../Pages/Jobs/Jobs";
 import SingleJob from "../Pages/Jobs/SingleJob/SingleJob";
 import Messaging from "../Pages/Messaging/Messaging";
 import MessagingDetails from "../Pages/Messaging/MessagingDetails/MessagingDetails";
+import MyJobDetails from "../Pages/MyJobPosts/MyJobDetails/MyJobDetails";
+import MyJobLists from "../Pages/MyJobPosts/MyJobLists/MyJobLists";
+import MyJobPosts from "../Pages/MyJobPosts/MyJobPosts";
 import MyNetwork from "../Pages/MyNetwork/MyNetwork";
 import MyProfile from "../Pages/MyProfile/MyProfile";
 import MyProfileMain from "../Pages/MyProfile/MyProfileMain/MyProfileMain";
@@ -67,6 +70,22 @@ export const router = createBrowserRouter([
           {
             path: "/my-profile/my-resume",
             element: <MyResume />,
+          },
+        ],
+      },
+      {
+        path: "/my-job-post",
+        element: <MyJobPosts />,
+        children: [
+          {
+            path: "/my-job-post",
+            element: <MyJobDetails />,
+          },
+          {
+            path: "/my-job-post/:id",
+            loader: ({ params }) =>
+              fetch(`${process.env.REACT_APP_server_link}/jobs/${params.id}`),
+            element: <MyJobDetails />,
           },
         ],
       },

@@ -1,22 +1,72 @@
-import { Avatar, Box, Divider, Typography } from "@mui/material";
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { SearchContext } from "../../../../context/SearchPovider/SearchPovider";
+import React, { useContext, useEffect, useState } from "react";
+import { Avatar, Box, Divider, Stack, styled, Typography } from "@mui/material";
 import TurnedInNotIcon from "@mui/icons-material/TurnedInNot";
+import { MyContext } from "../../../context/MyProvider/MyProvider";
 import { NavLink } from "react-router-dom";
-import { JobListsContailer } from "./joblLists.styled";
-const JobList = () => {
-  const { searchResultList: jobs } = React.useContext(SearchContext);
+export const JobListsContailer = styled(Stack)(({ theme }) => ({
+  backgroundColor: "#fff",
+  padding: "1rem",
+  overflowY: "scroll",
+  height: "100%",
+
+  "& .activeColor": {
+    color: "#ff1714",
+    border: "1px solid #ff1714",
+    boxShadow: "1px 1px 7px #ff1714",
+    fontSize: "1.25rem",
+    // fontWeight: 900,
+  },
+
+  "& a": {
+    textDecoration: "none",
+    color: "#131313",
+    display: "block",
+    margin: ".25rem .25rem",
+    border: "1px solid #ddd",
+    padding: "0.75rem 1rem",
+    borderRadius: "10px",
+    position: "relative",
+    transition: "7ms",
+  },
+  "& a:hover": {
+    textDecoration: "none",
+    color: "black",
+    display: "block",
+  },
+  "& .userName_container ": {
+    // background: '#eee',
+  },
+  "& a:hover ": {
+    // background: '#eee',
+    background: "#eee",
+    color: "#ff1714",
+    fontWeight: "bold",
+    // fontSize: "1.25rem",
+  },
+}));
+
+const MyJobLists = () => {
+  const { currentUser } = useContext(MyContext);
+  const [myJobs, setMyJobs] = useState([]);
+  useEffect(() => {
+    fetch(
+      `${process.env.REACT_APP_server_link}/haveIJobPost?userEmail=${currentUser?.email}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setMyJobs(data);
+      });
+  }, [currentUser]);
 
   return (
     <JobListsContailer>
-      {jobs &&
-        jobs?.map((job: any) => (
+      {myJobs &&
+        myJobs?.map((job: any) => (
           <NavLink
             className={({ isActive }) => (isActive ? "activeColor" : undefined)}
             style={{}}
             key={job?._id}
-            to={`/search/${job?._id}`}
+            to={`/my-job-post/${job?._id}`}
           >
             <Box
               sx={{
@@ -84,4 +134,4 @@ const JobList = () => {
   );
 };
 
-export default JobList;
+export default MyJobLists;

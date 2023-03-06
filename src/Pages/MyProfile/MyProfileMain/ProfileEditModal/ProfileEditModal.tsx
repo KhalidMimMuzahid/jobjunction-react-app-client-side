@@ -17,98 +17,83 @@ import uploadImageToImageBB from "../../../../utilities/uploadImageToImageBB/upl
 import { toast } from "react-toastify";
 
 const ProfileEditModal = (props: any) => {
-    const { open, setOpen, handleOpen, handleClose } = props
-    const [allInputDatas, setAllInputData] = React.useState<any>({})
-    const { currentUser } = React.useContext(MyContext);
+  const { open, setOpen, handleOpen, handleClose } = props;
+  const [allInputDatas, setAllInputData] = React.useState<any>({});
+  const { currentUser } = React.useContext(MyContext);
 
-    const [isHereProfileImg, setIsHereProfileImg] = React.useState<any>({});
-    const [isHereCoverImg, setIsHereCoverImg] = React.useState<any>({});
-    const [photoHandle, setPhotoHandle] = React.useState<any>({});
-    // const [profileImg, setProfileImg] = React.useState("")
+  const [isHereProfileImg, setIsHereProfileImg] = React.useState<any>({});
+  const [isHereCoverImg, setIsHereCoverImg] = React.useState<any>({});
+  const [photoHandle, setPhotoHandle] = React.useState<any>({});
+  // const [profileImg, setProfileImg] = React.useState("")
 
-    // const handlephotoHandle = (e: any) => {
-         
-    //     console.log("e.target.files", e.target.value)
-         
+  // const handlephotoHandle = (e: any) => {
 
-    //     const field = e.target.name;
-    //     let newPhotoHandle = { ...photoHandle }
-    //     if (e.target.value) {
-    //         console.log("isaddedd")
-    //         newPhotoHandle[field] = e.target.files;
-    //         setPhotoHandle(newPhotoHandle)
-    //     }
-    //     else {
-    //         console.log("is removed")
-    //         newPhotoHandle[field] = false;
-    //         setPhotoHandle(newPhotoHandle)
-    //     }
-    // }
+  //     console.log("e.target.files", e.target.value)
 
+  //     const field = e.target.name;
+  //     let newPhotoHandle = { ...photoHandle }
+  //     if (e.target.value) {
+  //         console.log("isaddedd")
+  //         newPhotoHandle[field] = e.target.files;
+  //         setPhotoHandle(newPhotoHandle)
+  //     }
+  //     else {
+  //         console.log("is removed")
+  //         newPhotoHandle[field] = false;
+  //         setPhotoHandle(newPhotoHandle)
+  //     }
+  // }
 
-    type Inputs = {
-        profileImg: FileList;
-        coverImg: FileList;
-        title: string;
-        city: string;
-        location: string;
-        phone: number | string;
-    };
+  type Inputs = {
+    profileImg: FileList;
+    coverImg: FileList;
+    title: string;
+    city: string;
+    location: string;
+    phone: number | string;
+  };
 
-    const {
-        register,
-        handleSubmit,
-        watch,
-        reset,
-        formState: { errors },
-    } = useForm<Inputs>();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors },
+  } = useForm<Inputs>();
 
+  const handleFormSubmit: SubmitHandler<Inputs> = (data) => {
+    // console.log("allllll daaaaa", data.profileImg)
+    const { title, phone, location, coverImg, profileImg, city } = data;
+    const profileImgPicture = profileImg[0];
+    const coverImgPicture = coverImg[0];
+    uploadImageToImageBB(profileImgPicture)
+      .then((res) => res.json())
+      .then((profileImgData) => {
+        const profileImgLink = profileImgData?.data?.display_url;
+        uploadImageToImageBB(coverImgPicture)
+          .then((res) => res.json())
+          .then((coverImgData) => {
+            const coverImgLink = coverImgData?.data?.display_url;
 
+            let userEditInfo = {
+              title,
+              phone,
+              location,
+              profilePhoto: profileImgLink,
+              coverImgLink,
+              name: currentUser?.displayName,
+              email: currentUser?.email,
+              city,
+            };
+            console.log("userEidtInfo", userEditInfo);
 
-    const handleFormSubmit: SubmitHandler<Inputs> = (data) => {
-        // console.log("allllll daaaaa", data.profileImg)
-        const { title, phone, location, coverImg, profileImg, city } = data;
-        const profileImgPicture = profileImg[0]
-        const coverImgPicture = coverImg[0];
-        uploadImageToImageBB(profileImgPicture)
-        .then(res => res.json())
-        .then((profileImgData)=> {
-            const profileImgLink = profileImgData?.data?.display_url;
-            uploadImageToImageBB(coverImgPicture)
-            .then((res)=> res.json())
-            .then((coverImgData)=> {
-                const coverImgLink = coverImgData?.data?.display_url;
-
-                let userEditInfo = {
-                    title,
-                    phone,
-                    location,
-                    profilePhoto: profileImgLink,
-                    coverImgLink,
-                    name: currentUser?.displayName,
-                    email: currentUser?.email,
-                    city,
-                    
-                }
-             console.log("userEidtInfo", userEditInfo)
-
-                fetch(`http://localhost:5000/updateprofile`, {
-                    method: 'PUT',
-                    headers: {
-                        "Content-Type": "application/json",
-                        // 'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: JSON.stringify(userEditInfo)
-                })
-                .then(res=> res.json())
-                .then(data => {
-                    console.log("success data updated", data)
-                    if(data.data.acknowledged){
-                        reset()
-                        toast.success("Your Bio Data is successfully update")
-                    }
-                })
-
+            fetch(`http://localhost:5000/updateprofile`, {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+              },
+              body: JSON.stringify(userEditInfo),
             })
               .then((res) => res.json())
               .then((data) => {
