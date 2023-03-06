@@ -53,7 +53,7 @@ export default function NewsFeedCard({ data, setRefreshAllPost }) {
     postImage,
     allLikes,
     occupation: title,
-    times: postDate,
+    postDate,
     profilePhotoURL: userLogo,
     userName,
     _id,
@@ -63,13 +63,15 @@ export default function NewsFeedCard({ data, setRefreshAllPost }) {
   //   return <Loader type="" />
   // }
 
+  const splitedTime = postDate.split("T")
+
   useEffect(() => {
 
     const isLiked2 = allLikes.findIndex(
       (email) => email === currentUser?.email
     );
     console.log(isLiked2);
-    
+
     if (isLiked2 !== -1) {
       setIsLiked(true);
     }
@@ -96,6 +98,7 @@ export default function NewsFeedCard({ data, setRefreshAllPost }) {
             console.log(data);
             setIsLiked(false);
             setRefreshAllPost((prev) => !prev);
+            // refetch()
           });
         break;
 
@@ -112,6 +115,7 @@ export default function NewsFeedCard({ data, setRefreshAllPost }) {
             console.log(data);
             setIsLiked(true);
             setRefreshAllPost((prev) => !prev);
+            // refetch()
           });
     }
   };
@@ -123,7 +127,7 @@ export default function NewsFeedCard({ data, setRefreshAllPost }) {
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
 
-            <img style={{height: "50px", width: "50px"}} src={userLogo} alt={userName} />
+            <img style={{ height: "50px", width: "50px" }} src={userLogo} alt={userName} />
 
           </Avatar>
         }
@@ -142,7 +146,7 @@ export default function NewsFeedCard({ data, setRefreshAllPost }) {
           </Box>
         }
         title={userName}
-        subheader={title}
+        subheader={splitedTime[0]}
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
@@ -246,7 +250,7 @@ export default function NewsFeedCard({ data, setRefreshAllPost }) {
         </LCRSBTN>
       </Box>
 
-        <UserComment id={_id}/>
+      <UserComment id={_id} />
 
     </Card>
   );

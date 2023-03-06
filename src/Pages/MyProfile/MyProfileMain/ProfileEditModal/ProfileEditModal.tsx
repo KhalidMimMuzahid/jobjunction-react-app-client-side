@@ -110,15 +110,7 @@ const ProfileEditModal = (props: any) => {
                 })
 
             })
-              .then((res) => res.json())
-              .then((data) => {
-                console.log("success data updated", data);
-                if (data.data.acknowledged) {
-                  reset();
-                  toast.success("Your Bio Data is successfully update");
-                }
-              });
-          });
+            
       });
   };
 

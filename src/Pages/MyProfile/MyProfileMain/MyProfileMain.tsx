@@ -31,12 +31,15 @@ const MyProfileMain = () => {
   // get the user updated data in mongodb store 
   const { data: userUpdateData} = useMyProfile()
   // console.log("data---------->", userUpdateData)
-  const {coverImgLink, email, location, name, profilePhoto, title, uid, phone, city} = userUpdateData;
   // console.log("coverImgLink", coverImgLink)
-
+  
   if(isLoading){
-    return <div>loading.....</div>
+    return <Loader type=''/>
   }
+  
+  // const {coverImgLink, email, location, name, profilePhoto, title, uid, phone, city} = userUpdateData;
+
+  console.log(isLoading)
 
 
 
@@ -48,7 +51,7 @@ const MyProfileMain = () => {
             {/* profile img or background img area start */}
             <BACKGROUND_PROFILE_IMG_CONTAINER className="userImg_and_bgImg_container">
               {/* background img  start */}
-              <div  className="bgImgContainer" style={{background: coverImgLink? `#4421FB url(${coverImgLink}) no-repeat center center` : `#4421FB url(https://i.ibb.co/4WxpyTK/linkdinecoverphto.jpg) no-repeat center center`, backgroundSize: 'cover', overflow: 'hidden' }} >
+              <div className="bgImgContainer" style={{ background: userUpdateData?.coverImgLink ? `#4421FB url(${userUpdateData?.coverImgLink}) no-repeat center center` : `#4421FB url(https://i.ibb.co/4WxpyTK/linkdinecoverphto.jpg) no-repeat center center`, backgroundSize: 'cover', overflow: 'hidden' }} >
                 {/* <img style={{width: '100%', maxHeight: '11.119vw'}} src={coverImgLink? coverImgLink : `https://i.ibb.co/4WxpyTK/linkdinecoverphto.jpg`} alt={name} /> */}
                 <IconButton title="Edit" onClick={handleOpen}>
                   <EditIcon />
@@ -61,8 +64,8 @@ const MyProfileMain = () => {
               <div>
                 <Avatar
                   className="profileImg"
-                  alt={name}
-                  src={profilePhoto? profilePhoto : undefined}
+                  alt={userUpdateData?.name}
+                  src={userUpdateData?.profilePhoto ? userUpdateData?.profilePhoto : undefined}
                 />
               </div>
               {/* profile img end */}
@@ -73,16 +76,16 @@ const MyProfileMain = () => {
 
             <CardContent style={{ margin: "2em 20px" }}>
               <Typography className="userName" gutterBottom variant="h5" sx={{ m: 0 }} component='h3'>
-                {name}
+                {userUpdateData?.name}
               </Typography>
               <Typography variant="h6" color="text.secondary">
-                {title}
+                {userUpdateData?.title}
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 #Talk about html css js and react
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                <span>{`${location} ${city}`}</span>{" "}
+                <span>{`${userUpdateData?.location} ${userUpdateData?.city}`}</span>{" "}
                 <Link
                   to={""}
                   style={{
@@ -91,7 +94,7 @@ const MyProfileMain = () => {
                     fontWeight: "700",
                   }}
                 >
-                  {phone ? phone : `Contact Info`}
+                  {userUpdateData?.phone ? userUpdateData?.phone : `Contact Info`}
                 </Link>
               </Typography>
             </CardContent>
