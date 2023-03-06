@@ -72,7 +72,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 // const Navbar: React.FC<IPROPS> = () => {
 
 const Navbar = () => {
-  const { setSearchBarIsOpen, setSearchKey } = React.useContext(SearchContext);
+  const { setSearchBarIsOpen, setSearchKey, searchType } =
+    React.useContext(SearchContext);
   const [searchInput, setSearchInput] = React.useState("");
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
@@ -258,7 +259,11 @@ const Navbar = () => {
     }
     setSearchInput(e.target.value);
   };
+  React.useEffect(() => {
+    const searchInput: any = document.getElementById("searchInput");
 
+    setSearchKey(searchInput?.value);
+  }, [searchType]);
   return (
     <Box
       sx={{

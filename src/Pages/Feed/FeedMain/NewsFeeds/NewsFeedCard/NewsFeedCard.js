@@ -59,14 +59,14 @@ export default function NewsFeedCard({ data, setRefreshAllPost }) {
     _id,
   } = data;
 
+  const [totalLikes, setTotalLikes] = React.useState(allLikes?.length);
   // if (isLoading) {
   //   return <Loader type="" />
   // }
 
-  const splitedTime = postDate.split("T")
+  const splitedTime = postDate.split("T");
 
   useEffect(() => {
-
     const isLiked2 = allLikes.findIndex(
       (email) => email === currentUser?.email
     );
@@ -75,7 +75,7 @@ export default function NewsFeedCard({ data, setRefreshAllPost }) {
     if (isLiked2 !== -1) {
       setIsLiked(true);
     }
-  }, []);
+  }, [data]);
 
   const info = {
     _id,
@@ -86,6 +86,8 @@ export default function NewsFeedCard({ data, setRefreshAllPost }) {
   const handelLike = () => {
     switch (isLiked) {
       case true:
+        setIsLiked(false);
+        setTotalLikes((prev) => prev - 1);
         fetch(`${process.env.REACT_APP_server_link}/dislikeapost`, {
           method: "PUT",
           headers: {
@@ -96,13 +98,15 @@ export default function NewsFeedCard({ data, setRefreshAllPost }) {
           .then((res) => res.json())
           .then((data) => {
             console.log(data);
-            setIsLiked(false);
-            setRefreshAllPost((prev) => !prev);
+            // setIsLiked(false);
+            // setRefreshAllPost((prev) => !prev);
             // refetch()
           });
         break;
 
       default:
+        setIsLiked(true);
+        setTotalLikes((prev) => prev + 1);
         fetch(`${process.env.REACT_APP_server_link}/likeapost`, {
           method: "PUT",
           headers: {
@@ -113,8 +117,8 @@ export default function NewsFeedCard({ data, setRefreshAllPost }) {
           .then((res) => res.json())
           .then((data) => {
             console.log(data);
-            setIsLiked(true);
-            setRefreshAllPost((prev) => !prev);
+            // setIsLiked(true);
+            // setRefreshAllPost((prev) => !prev);
             // refetch()
           });
     }
@@ -126,9 +130,11 @@ export default function NewsFeedCard({ data, setRefreshAllPost }) {
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-
-            <img style={{ height: "50px", width: "50px" }} src={userLogo} alt={userName} />
-
+            <img
+              style={{ height: "50px", width: "50px" }}
+              src={userLogo}
+              alt={userName}
+            />
           </Avatar>
         }
         action={
@@ -191,7 +197,8 @@ export default function NewsFeedCard({ data, setRefreshAllPost }) {
             <SentimentVeryDissatisfiedOutlinedIcon fontSize="small" />
           </Box>
           <Box>
-            <span>{allLikes.length} other likes</span>
+            {/* <span>{allLikes.length} other likes</span> */}
+            <span>{totalLikes} other likes</span>
           </Box>
         </Box>
 
@@ -218,12 +225,13 @@ export default function NewsFeedCard({ data, setRefreshAllPost }) {
           }}
         >
           <IconButton>
-            <ThumbUpOutlinedIcon fontSize="small" />
+            <ThumbUpOutlinedIcon
+              sx={{ color: isLiked ? "red" : "black" }}
+              fontSize="small"
+            />
           </IconButton>
           <span>{isLiked ? "Liked" : "Like"}</span>
         </LCRSBTN>
-
-
 
         <LCRSBTN>
           {/* comment btn */}
@@ -251,7 +259,6 @@ export default function NewsFeedCard({ data, setRefreshAllPost }) {
       </Box>
 
       <UserComment id={_id} />
-
     </Card>
   );
 }

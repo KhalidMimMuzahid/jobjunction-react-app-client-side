@@ -46,6 +46,9 @@ const Main = () => {
   } = useQuery({
     queryKey: [searchKey, searchType, filterInfo],
     queryFn: async () => {
+      console.log("ssearch tyype:", searchType);
+      console.log("ssearch key:", searchKey);
+
       if (searchKey?.length === 0 || !setSearchBarIsOpen) {
         return;
       }

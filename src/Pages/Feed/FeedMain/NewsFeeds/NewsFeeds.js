@@ -19,13 +19,13 @@ const NewsFeeds = () => {
       .then((value) => {
         setData(value?.data?.reverse());
         setIsNewsFeedLoading(false);
-        // console.log(data)
+        console.log("solomuddiner bap: n  =>", value?.data?.reverse());
       });
   }, [refreshAllPost]);
 
-  if (isNewsFeedLoading) {
-    return <Loader />;
-  }
+  // if (isNewsFeedLoading) {
+  //   return <Loader />;
+  // }
   // const NewsFeedCards = [
   //   {
   //     userLogo: "https://i.ibb.co/4MnMYkJ/Joseph-Gray.png",
@@ -67,6 +67,7 @@ const NewsFeeds = () => {
         {datas &&
           datas?.map((data, i) => (
             <NewsFeedCard
+              datas={datas}
               key={i}
               data={data}
               setRefreshAllPost={setRefreshAllPost}
