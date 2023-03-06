@@ -32,17 +32,23 @@ const SingleJob = () => {
   // console.log(data.data)
   // console.log(currentUser?.email)
 
+
+  console.log(totalApplyed)
+
   // useEffect(() => {
   setTimeout(() => {
-    const isApplyed2 = totalApplyed.findIndex(
-      (email: any) => email === currentUser?.email
-    );
-    console.log("isapplyed", isApplyed2);
+    const isApplyed2 = totalApplyed.findIndex((singleApply: any) => singleApply?.email === currentUser?.email)
+    // console.log("isapplyed", isApplyed2)
     if (isApplyed2 !== -1) {
-      setIsApplyed(true);
+      setIsApplyed(true)
     }
-  }, 500);
+  }, 500)
   // }, [])
+
+  // 
+
+
+  // MODAL 
 
   // const handelApply = () => {
   //     const email = currentUser.email
@@ -66,10 +72,12 @@ const SingleJob = () => {
   // }
 
   // MODAL
+
   // modal state
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
 
   return (
     <Box sx={{ display: "flex", justifyContent: "center" }}>
@@ -86,39 +94,22 @@ const SingleJob = () => {
         <h3>Company Name: {companyName}</h3>
         <h3>Job Description: {jobDescription}</h3>
 
-        <h3>
-          Requirements:{" "}
-          {requireMents?.map((req: any, i: any) => (
-            <li key={i}>{req}</li>
-          ))}
-        </h3>
 
-        <h3>
-          Needed Skills:{" "}
-          {skillSets?.map((skill: any, i: any) => (
-            <li key={i}>{skill}</li>
-          ))}
-        </h3>
+        <h3>Requirements: {requireMents?.map((req: any, i: any) => <li key={i}>{req}</li>)}</h3>
 
-        <h3>
-          Responseibility:{" "}
-          {responsibilities?.map((res: any, i: any) => (
-            <li key={i}>{res}</li>
-          ))}
-        </h3>
+        <h3>Needed Skills: {skillSets?.map((skill: any, i: any) => <li key={i}>{skill}</li>)}</h3>
+
+        <h3>Responseibility: {responsibilities?.map((res: any, i: any) => <li key={i}>{res}</li>)}</h3>
+
+
 
         <h3>Job Location: {jobLocation}</h3>
         <h3>Contact Email: {userEmail}</h3>
 
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            marginBottom: "4em",
-            marginTop: "1em",
-          }}
-        >
-          <Button variant="outlined" onClick={handleOpen}>
+
+        <Box sx={{ display: "flex", justifyContent: "center", marginBottom: "4em", marginTop: "1em" }}>
+          <Button variant='outlined' disabled={isApplyed} onClick={handleOpen}>
+
             {isApplyed ? "Applyed" : "Apply"}
           </Button>
         </Box>
@@ -130,7 +121,11 @@ const SingleJob = () => {
         setOpen={setOpen}
         handleOpen={handleOpen}
         handleClose={handleClose}
+
+        setIsApplyed={setIsApplyed}
+        _id={_id}
       />
+
     </Box>
   );
 };

@@ -14,11 +14,11 @@ import { EDIT_CONTAINER, MODAL_BODY } from "../../MyProfile/MyProfileMain/Profil
 
 
 const ModalAppliedInfo = (props: any) => {
-    const { open, setOpen, handleOpen, handleClose } = props
+    const { open, setOpen, handleOpen, handleClose, setIsApplyed, _id } = props
     const [allInputDatas, setAllInputData] = React.useState<any>({})
     const { currentUser } = React.useContext(MyContext);
 
- 
+
     type Inputs = {
         experience: number;
         ctc: number;
@@ -39,8 +39,38 @@ const ModalAppliedInfo = (props: any) => {
 
 
     const handleFormSubmit: SubmitHandler<Inputs> = (data) => {
-        console.log("allllll daaaaa", data)
+        // console.log("allllll daaaaa", data)
         // const { experience, phone , ctc } = data;
+
+        const email = currentUser?.email
+        const name = currentUser?.displayName
+        const img = currentUser?.photoURL
+        const info = {
+            ...data,
+            email,
+            _id, 
+            name, 
+            img
+        }
+        // console.log(info)
+
+        fetch('http://localhost:5000/applyajob', {
+            method: "PUT",
+            headers: {
+                "content-type": "application/json",
+                info: JSON.stringify(info)
+            }
+        }).then(res => res.json())
+            .then(data => {
+                if (data?.data?.matchedCount){
+                    console.log(data)
+                    setIsApplyed(true)
+                    toast.success("Successfully applied")
+                    handleClose()
+                }else{
+                    toast.error("something error happened")
+                }
+            })
     }
 
 
@@ -55,13 +85,13 @@ const ModalAppliedInfo = (props: any) => {
             >
                 <MODAL_BODY>
                     <form onSubmit={handleSubmit(handleFormSubmit)}>
-                            <Box className="edit-intro">
-                                <Typography sx={{textTransform: 'uppercase'}} component="h2" className="title">applicant form</Typography>
-                                <IconButton className='clear-btn' onClick={handleClose}>
-                                    <ClearIcon />
-                                </IconButton>
-                            </Box>
-                        <EDIT_CONTAINER spacing={3} sx={{margin: '1rem 0'}}>
+                        <Box className="edit-intro">
+                            <Typography sx={{ textTransform: 'uppercase' }} component="h2" className="title">applicant form</Typography>
+                            <IconButton className='clear-btn' onClick={handleClose}>
+                                <ClearIcon />
+                            </IconButton>
+                        </Box>
+                        <EDIT_CONTAINER spacing={3} sx={{ margin: '1rem 0' }}>
                             {/* name input start */}
                             <Box>
                                 {/* <Typography component="h2">YOUR NAME</Typography> */}
@@ -107,7 +137,7 @@ const ModalAppliedInfo = (props: any) => {
                             <Box>
                                 {/* <Typography component="h2">CITY</Typography> */}
                                 <TextField
-                                    {...register("ctc")} 
+                                    {...register("ctc")}
                                     size='small' fullWidth type="number" label='CTC *' />
                             </Box>
                             {/* CTC input end */}
@@ -148,7 +178,7 @@ const ModalAppliedInfo = (props: any) => {
                             </Box>
                             {/* resume link input end */}
 
-                            <Box className="submit-btn" sx={{marginBottom: '1rem'}}>
+                            <Box className="submit-btn" sx={{ marginBottom: '1rem' }}>
                                 <Button type='submit'>Submit</Button>
                             </Box>
 
