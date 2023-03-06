@@ -143,7 +143,7 @@ const Navbar = () => {
           to={"/my-job-post"}
           style={{ textDecoration: "none", color: "black" }}
         >
-          <MenuItem onClick={handleMenuClose}>My job post</MenuItem>
+          <MenuItem onClick={handleMenuClose}>Dashboard</MenuItem>
         </Link>
       )}
       <MenuItem onClick={handleMenuClose}>Settings</MenuItem>

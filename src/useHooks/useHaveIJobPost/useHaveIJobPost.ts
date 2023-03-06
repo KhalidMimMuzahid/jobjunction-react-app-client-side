@@ -33,7 +33,7 @@ export const useHaveIJobPost = () => {
           `${process.env.REACT_APP_server_link}/haveIJobPost?userEmail=${currentUser?.email}`
         );
         const data = await res.json();
-        console.log("usehoook:", data);
+        // console.log("usehoook:", data);
         if (data?.length >= 1) {
           return true;
         } else {
