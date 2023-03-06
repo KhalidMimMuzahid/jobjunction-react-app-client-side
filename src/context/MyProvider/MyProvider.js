@@ -21,6 +21,7 @@ const MyProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [role, setRole] = useState("");
   const [isRoleLoading, setIsRoleLoading] = useState(true);
+  const [isChatSelected, setIsChatSelected] = useState(true);
   // const [searchResultList, setSearchResultList] = useState([]);
   const provider = new GoogleAuthProvider();
   const googleSignIn = () => {
@@ -73,6 +74,8 @@ const MyProvider = ({ children }) => {
     isRoleLoading,
     setIsRoleLoading,
     isLoading,
+    isChatSelected,
+    setIsChatSelected,
   };
   return <MyContext.Provider value={info}>{children}</MyContext.Provider>;
 };

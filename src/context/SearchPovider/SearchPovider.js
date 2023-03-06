@@ -15,41 +15,6 @@ const SearchPovider = ({ children }) => {
   const [searchType, setSearchType] = useState("People");
   const [filterInfo, setFilterInfo] = useState({});
   const [searchResultList, setSearchResultList] = useState([]);
-  // const navigate = useNavigate();
-  // const {
-  //   data: searchResult,
-  //   error,
-  //   isError,
-  //   isFetched,
-  //   isFetching,
-  //   isLoading,
-  //   isRefetchError,
-  //   isRefetching,
-  //   refetch,
-  // } = useQuery({
-  //   queryKey: [searchKey, searchType, filterInfo],
-  //   queryFn: async () => {
-  //     if (searchKey?.length === 0) {
-  //       return;
-  //     }
-  //     // navigate("/search");
-  //     const allFilter = {
-  //       searchKey,
-  //       searchType,
-  //       filterInfo,
-  //     };
-  //     const res = await fetch(`${process.env.REACT_APP_server_link}/search`, {
-  //       headers: {
-  //         "content-type": "application/json",
-  //         data: JSON.stringify(allFilter),
-  //       },
-  //     });
-  //     const data = await res.json();
-  //     console.log("result: ", data);
-  //     setSearchResultList(data?.data);
-  //     return data;
-  //   },
-  // });
 
   const info = {
     searchBarIsOpen,

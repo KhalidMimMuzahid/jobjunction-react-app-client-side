@@ -20,14 +20,15 @@ import { useLoaderData } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { MyContext } from "../../../context/MyProvider/MyProvider";
 import EachMessage from "./EachMessage/EachMessage";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { toast } from "react-toastify";
-import { io } from "socket.io-client";
+// import { io } from "socket.io-client";
 import { SearchContext } from "../../../context/SearchPovider/SearchPovider";
-const ENDPOINT: any = process.env.REACT_APP_server_link;
-let socket: any, selectedChatCompare: any;
+// const ENDPOINT: any = process.env.REACT_APP_server_link;
+// let socket: any, selectedChatCompare: any;
 const MessagingDetails = () => {
   const { setRefreshMessageListToggle } = useContext(SearchContext);
-  const { currentUser } = useContext(MyContext);
+  const { currentUser, setIsChatSelected } = useContext(MyContext);
   const [chatProfilePhoto, setChatProfilePhoto] = React.useState("");
   const [chatName, setChatName] = React.useState("");
   const [chatInfo, setChatInfo] = React.useState({});
@@ -37,15 +38,15 @@ const MessagingDetails = () => {
   const [socketConnected, setSocketConnected] = React.useState(false);
   const [isConnectionSent, setIsConnectionSent] = React.useState(false);
   // socket?.emit("join chat", currentUser);
-  useEffect(() => {
-    if (currentUser?.email) {
-      socket = io(ENDPOINT);
-      socket?.emit("join chat", currentUser?.email);
-      // socket.emit("setup", currentUser);
-      // socket.on("connected", () => setSocketConnected(true));
-    }
-    // eslint-disable-next-line
-  }, []);
+  // useEffect(() => {
+  //   if (currentUser?.email) {
+  //     socket = io(ENDPOINT);
+  //     socket?.emit("join chat", currentUser?.email);
+  //     // socket.emit("setup", currentUser);
+  //     // socket.on("connected", () => setSocketConnected(true));
+  //   }
+  //   // eslint-disable-next-line
+  // }, []);
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_server_link}/chatInfo?chatId=${chatId}`)
@@ -138,18 +139,18 @@ const MessagingDetails = () => {
           e.target.reset();
           refetch();
           setRefreshMessageListToggle((prev: any) => !prev);
-          const messageDetailsInfo = { messageInfo, chatInfo };
-          socket.emit("new message", messageDetailsInfo);
+          // const messageDetailsInfo = { messageInfo, chatInfo };
+          // socket.emit("new message", messageDetailsInfo);
         }
       });
   };
-  useEffect(() => {
-    socket.on("message recieved", (messageInfo: any) => {
-      console.log("you received message", messageInfo);
-      refetch();
-      setRefreshMessageListToggle((prev: any) => !prev);
-    });
-  });
+  // useEffect(() => {
+  //   socket.on("message recieved", (messageInfo: any) => {
+  //     console.log("you received message", messageInfo);
+  //     refetch();
+  //     setRefreshMessageListToggle((prev: any) => !prev);
+  //   });
+  // });
 
   return (
     <MESSAGINGCHATINGCONTAINER
@@ -165,11 +166,18 @@ const MessagingDetails = () => {
       >
         <CALLVIDEOSECTION direction="row" spacing={2}>
           {/* client images */}
+          <IconButton
+            sx={{ display: { xs: "block", md: "none" } }}
+            onClick={() => setIsChatSelected(false)}
+          >
+            <ArrowBackIcon fontSize="medium" />
+          </IconButton>
+
           <Box>
             <img
               style={{ width: "50px", height: "50px", borderRadius: "100%" }}
               src={chatProfilePhoto}
-              alt="jhankar-mahbub"
+              alt={chatName}
             />
           </Box>
           {/* client name  */}

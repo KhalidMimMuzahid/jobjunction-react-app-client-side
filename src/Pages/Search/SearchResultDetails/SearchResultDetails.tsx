@@ -11,7 +11,9 @@ import DefaultDetails from "./DefaultDetails/DefaultDetails";
 // const ENDPOINT = process.env.REACT_APP_server_link;
 // let socket, selectedChatCompare;
 const SearchResultDetails = () => {
-  const { searchType } = React.useContext(SearchContext);
+  const { setSearchKey, searchType } = React.useContext(SearchContext);
+
+  setSearchKey("");
   // console.log(searchType);
   let searchDetails;
   switch (searchType) {
