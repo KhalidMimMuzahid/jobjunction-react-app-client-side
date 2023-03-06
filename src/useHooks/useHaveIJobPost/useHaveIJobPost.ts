@@ -2,12 +2,11 @@ import React, { useContext, useEffect } from "react";
 import { MyContext } from "../../context/MyProvider/MyProvider";
 import { useQuery } from "@tanstack/react-query";
 
-export const useMyProfile = () => {
+export const useHaveIJobPost = () => {
   const { currentUser } = useContext(MyContext);
-  // const [isLoading, setIsLoading] = React.useState(true)
-  // const [myProfile, setMyProfile] = React.useState({});
+  //   const [haveIJobPost, setHaveIJobPost] = React.useState(false);
 
-  // console.log("hitting", currentUser);
+  //   console.log("hitting", currentUser);
 
   //   useEffect(()=>{
   // if(currentUser && currentUser?.uid){
@@ -17,7 +16,7 @@ export const useMyProfile = () => {
   //   }, [currentUser])
 
   const {
-    data,
+    data: haveIJobPost = false,
     error,
     isError,
     isFetched,
@@ -31,16 +30,20 @@ export const useMyProfile = () => {
     queryFn: async () => {
       if (currentUser?.uid) {
         const res = await fetch(
-          `${process.env.REACT_APP_server_link}/myprofile?uid=${currentUser?.uid}`
+          `${process.env.REACT_APP_server_link}/haveIJobPost?userEmail=${currentUser?.email}`
         );
         const data = await res.json();
         console.log("usehoook:", data);
-        return data;
+        if (data?.length >= 1) {
+          return true;
+        } else {
+          return false;
+        }
       } else {
-        return "user not found";
+        return false;
       }
     },
   });
 
-  return { data, isLoading, refetch };
+  return { haveIJobPost, isLoading };
 };

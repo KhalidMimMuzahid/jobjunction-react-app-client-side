@@ -23,6 +23,7 @@ import WorkIcon from "@mui/icons-material/Work";
 import Container from "@mui/material/Container";
 import { MyContext } from "../../context/MyProvider/MyProvider";
 import { SearchContext } from "../../context/SearchPovider/SearchPovider";
+import { useHaveIJobPost } from "../../useHooks/useHaveIJobPost/useHaveIJobPost";
 // interface IPROPS {
 //   setSearchBarIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 //   setSearchKey: React.Dispatch<React.SetStateAction<string>>;
@@ -69,6 +70,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 // const Navbar: React.FC<IPROPS> = () => {
+
 const Navbar = () => {
   const { setSearchBarIsOpen, setSearchKey } = React.useContext(SearchContext);
   const [searchInput, setSearchInput] = React.useState("");
@@ -76,7 +78,8 @@ const Navbar = () => {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
   const { currentUser, logOut } = React.useContext(MyContext);
-  console.log(currentUser);
+  const { haveIJobPost, isLoading } = useHaveIJobPost();
+  // console.log(currentUser);
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -134,6 +137,15 @@ const Navbar = () => {
       >
         <MenuItem onClick={handleMenuClose}>My Resume</MenuItem>
       </Link>
+      {/* haveIJobPost, isLoading */}
+      {!isLoading && haveIJobPost && (
+        <Link
+          to={"/my-job-post"}
+          style={{ textDecoration: "none", color: "black" }}
+        >
+          <MenuItem onClick={handleMenuClose}>My job post</MenuItem>
+        </Link>
+      )}
       <MenuItem onClick={handleMenuClose}>Settings</MenuItem>
       <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
     </Menu>
