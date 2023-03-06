@@ -46,10 +46,10 @@ const Main = () => {
   } = useQuery({
     queryKey: [searchKey, searchType, filterInfo],
     queryFn: async () => {
-      if (searchKey?.length === 0) {
+      if (searchKey?.length === 0 || !setSearchBarIsOpen) {
         return;
       }
-      console.log("fucking: ", searchKey, searchType, filterInfo);
+      // console.log("fucking: ", searchKey, searchType, filterInfo);
       navigate("/search");
       const allFilter = {
         searchKey,

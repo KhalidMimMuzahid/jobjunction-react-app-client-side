@@ -13,13 +13,13 @@ import {
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
 import InputBase from "@mui/material/InputBase";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import SearchIcon from "@mui/icons-material/Search";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import { useQuery } from "@tanstack/react-query";
 import { MyContext } from "../../../context/MyProvider/MyProvider";
-import { io } from "socket.io-client";
+// import { io } from "socket.io-client";
 import EachList from "./EachList/EachList";
 import { SearchContext } from "../../../context/SearchPovider/SearchPovider";
 interface EachInfo {
@@ -31,10 +31,11 @@ interface EachInfo {
 // const ENDPOINT =process.env.REACT_APP_server_link;
 // let socket: any;
 const MessagingList = () => {
+  const navigate = useNavigate();
   const { refreshMessageListToggle } = React.useContext(SearchContext);
   const { currentUser } = useContext(MyContext);
   const [open, setOpen] = React.useState(false);
-  const [chatLists, setChatLists] = React.useState([]);
+  const [chatLists, setChatLists] = React.useState<any>([]);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -92,7 +93,12 @@ const MessagingList = () => {
   //   refetch();
   // });
   // // });
-
+  useEffect(() => {
+    const _id = chatLists[0]?._id;
+    if (_id) {
+      navigate(`/messaging/message-details/${_id}`);
+    }
+  }, [chatLists]);
   return (
     <MESSAGINGLISTCONTAINER>
       <Box className="messaginContainer">

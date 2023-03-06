@@ -19,6 +19,8 @@ import Search from "../Pages/Search/Search";
 import SearchResultDetails from "../Pages/Search/SearchResultDetails/SearchResultDetails";
 import SignIn from "../Pages/SignIn/SignIn";
 import SignUp from "../Pages/SignUp/SignUp";
+import ControlMessageRoute from "./ControlMessageRoute/ControlMessageRoute";
+import ControlSearchInNav from "./ControlSearchInNav/ControlSearchInNav";
 import PrivetRoute from "./PrivetRoute/PrivetRoute";
 
 //  don't touch this file anymore
@@ -40,14 +42,20 @@ export const router = createBrowserRouter([
       {
         path: "/feed",
         element: (
+          // <ControlSearchInNav>
           <PrivetRoute>
             <Feed />
           </PrivetRoute>
+          // </ControlSearchInNav>
         ),
       },
       {
         path: "/my-network",
-        element: <MyNetwork />,
+        element: (
+          // <ControlSearchInNav>
+          <MyNetwork />
+          // </ControlSearchInNav>
+        ),
       },
       {
         path: "/jobs",
@@ -114,7 +122,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/messaging",
-        element: <Messaging />,
+        element: (
+          // <ControlMessageRoute>
+          <Messaging />
+          // </ControlMessageRoute>
+        ),
         children: [
           {
             path: "/messaging/message-details/:chat_id",

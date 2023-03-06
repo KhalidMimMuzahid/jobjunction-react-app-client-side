@@ -176,7 +176,7 @@ const PeopleDetails = () => {
 
   return (
     <div>
-      {people && (
+      {people?.email ? (
         <Box>
           <PEOPLE_DETAILS_CONTAINER spacing={2} direction="row">
             <Box>
@@ -205,6 +205,14 @@ const PeopleDetails = () => {
             {/* <IsSentMeConnection/> */}
             {/* <Default /> */}
           </Box>
+        </Box>
+      ) : (
+        <Box>
+          <Typography
+            sx={{ textAlign: "center", my: "50px", fontSize: "1rem" }}
+          >
+            select a user to view details
+          </Typography>
         </Box>
       )}
     </div>
