@@ -86,8 +86,8 @@ export default function NewsFeedCard({ data, setRefreshAllPost }) {
   const handelLike = () => {
     switch (isLiked) {
       case true:
-        setTotalLikes((prev) => prev - 1);
         setIsLiked(false);
+        setTotalLikes((prev) => prev - 1);
         fetch(`${process.env.REACT_APP_server_link}/dislikeapost`, {
           method: "PUT",
           headers: {
@@ -99,7 +99,7 @@ export default function NewsFeedCard({ data, setRefreshAllPost }) {
           .then((data) => {
             console.log(data);
             // setIsLiked(false);
-            setRefreshAllPost((prev) => !prev);
+            // setRefreshAllPost((prev) => !prev);
             // refetch()
           });
         break;
@@ -118,7 +118,7 @@ export default function NewsFeedCard({ data, setRefreshAllPost }) {
           .then((data) => {
             console.log(data);
             // setIsLiked(true);
-            setRefreshAllPost((prev) => !prev);
+            // setRefreshAllPost((prev) => !prev);
             // refetch()
           });
     }
