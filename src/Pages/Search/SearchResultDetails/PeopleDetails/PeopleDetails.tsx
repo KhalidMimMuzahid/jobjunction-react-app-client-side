@@ -24,6 +24,61 @@ const PeopleDetails = () => {
   const [isMyProfile, setIsMyProfile] = useState(false);
   const [showDisplayElement, setShowDisplayElement] = useState<any>(null);
   const [peopleConnectionType, setPeopleConnectionType] = useState<any>(null);
+  const handleConnectionAction = () => {
+    switch (isConnectionSent) {
+      case true:
+        // to for cancel request
+        const info = {
+          senderEmail: currentUser?.email,
+          recieverEmail: people?.email,
+        };
+
+        fetch(`${process.env.REACT_APP_server_link}/caancelconnection`, {
+          method: "PUT",
+          headers: {
+            "content-type": "application/json",
+            info: JSON.stringify(info),
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data?.modifiedCount) {
+              toast.error(`${people?.name} request canceled`);
+              refetch();
+            }
+          });
+        break;
+      case false:
+        // to do for add connection
+
+        const connectionInfo = {
+          senderaInfo: {
+            senderEmail: currentUser?.email,
+            senderName: currentUser?.displayName,
+            senderPhoto: currentUser?.photoURL,
+          },
+          receiverEmail: people?.email,
+        };
+        fetch(`${process.env.REACT_APP_server_link}/addconnecion`, {
+          method: "PUT",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(connectionInfo),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            if (data?.modifiedCount) {
+              // to do : set state is connection sen
+              toast.success("connection sent successfully");
+              refetch();
+            }
+          });
+        break;
+    }
+  };
+
   const {
     data: people,
     error,
@@ -119,60 +174,6 @@ const PeopleDetails = () => {
   if (isLoadingForUseProfile || isLoading) {
     return <Loader type="" />;
   }
-  const handleConnectionAction = () => {
-    switch (isConnectionSent) {
-      case true:
-        // to for cancel request
-        const info = {
-          senderEmail: currentUser?.email,
-          recieverEmail: people?.email,
-        };
-
-        fetch(`${process.env.REACT_APP_server_link}/caancelconnection`, {
-          method: "PUT",
-          headers: {
-            "content-type": "application/json",
-            info: JSON.stringify(info),
-          },
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data?.modifiedCount) {
-              toast.error(`${people?.name} request canceled`);
-              refetch();
-            }
-          });
-        break;
-      case false:
-        // to do for add connection
-
-        const connectionInfo = {
-          senderaInfo: {
-            senderEmail: currentUser?.email,
-            senderName: currentUser?.displayName,
-            senderPhoto: currentUser?.photoURL,
-          },
-          receiverEmail: people?.email,
-        };
-        fetch(`${process.env.REACT_APP_server_link}/addconnecion`, {
-          method: "PUT",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify(connectionInfo),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            console.log(data);
-            if (data?.modifiedCount) {
-              // to do : set state is connection sen
-              toast.success("connection sent successfully");
-              refetch();
-            }
-          });
-        break;
-    }
-  };
 
   return (
     <div>
