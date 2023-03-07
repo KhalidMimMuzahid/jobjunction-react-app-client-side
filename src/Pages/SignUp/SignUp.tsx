@@ -31,6 +31,7 @@ import uploadProfileToMongoDB from "../../utilities/uploadProfileToMongoDB/uploa
 import { toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
 import Loader from "../../Components/Loader/Loader";
+import checkAlreadyUser from "../../utilities/checkAlreadyUser/checkAlreadyUser";
 
 export default function SignUp() {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -38,9 +39,11 @@ export default function SignUp() {
   const [passwordError, setPasswordError] = React.useState("");
   const [emailPasswordSignUpError, setEmailPasswordSignUpError] =
     React.useState("");
-  const { createUserWithEmail, updateUserProfile, currentUser } =
-    React.useContext(MyContext);
   const [isSignUpLoading, setIsSignUpLoading] = React.useState(false);
+  const [googleSignInError, setGoogleSignInError] = React.useState("");
+  const { createUserWithEmail, updateUserProfile, currentUser, googleSignIn } =
+    React.useContext(MyContext);
+
   const navigate = useNavigate();
 
   const handleClickShowPassword = () => {
@@ -238,7 +241,63 @@ export default function SignUp() {
         // ..
       });
   };
+  const logInWithGoogle = () => {
+    setEmailPasswordSignUpError("");
+    setGoogleSignInError("");
+    // console.log("clicked");
+    setIsSignUpLoading(true);
+    googleSignIn()
+      .then((result: any) => {
+        const user = result.user;
+        // console.log("user", user);
 
+        const userInfoForDB = {
+          name: user.displayName,
+          email: user.email,
+          profilePhoto: user.photoURL,
+          uid: user.uid,
+          role: "user",
+          allFriends: [],
+          pendingReq: [],
+        };
+        // check this user is already have in database or not
+        checkAlreadyUser(user.uid)
+          .then((res) => res.json())
+          .then((data) => {
+            if (!data.isUserAlreadyExists) {
+              // if the user is not already in database
+              // console.log("the user is not already in database");
+              // upload user info to mongodb database
+              uploadProfileToMongoDB(userInfoForDB)
+                .then((res) => res.json())
+                .then((data) => {
+                  if (data?.acknowledged) {
+                    setIsSignUpLoading(false);
+                    // toast.success("user created successfully");
+                    setTimeout(() => {
+                      navigate("/my-profile");
+                    }, 100);
+                  }
+                });
+            } else {
+              // if the user is already in database
+              // console.log("the user is already in database");
+              setIsSignUpLoading(false);
+              // toast.success("user created successfully");
+              setTimeout(() => {
+                navigate("/feed");
+              }, 100);
+            }
+          });
+      })
+      .catch((error: any) => {
+        const errorMessage = error.message;
+        // console.log("errorMessage", errorMessage);
+        setGoogleSignInError(errorMessage);
+        setIsSignUpLoading(false);
+        return;
+      });
+  };
   return (
     <Box
       sx={{
@@ -425,7 +484,7 @@ export default function SignUp() {
 
           {/* GOOGLE, GITHUB */}
           <SOCIALICONSCONTAINER direction="row" spacing={1}>
-            <IconButton>
+            <IconButton onClick={logInWithGoogle}>
               <GoogleIcon fontSize="medium" />
             </IconButton>
             <Typography component="span">&</Typography>

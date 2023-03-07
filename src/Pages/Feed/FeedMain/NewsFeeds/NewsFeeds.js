@@ -19,7 +19,7 @@ const NewsFeeds = () => {
       .then((value) => {
         setData(value?.data?.reverse());
         setIsNewsFeedLoading(false);
-        console.log("solomuddiner bap: n  =>", value?.data?.reverse());
+        // console.log("solomuddiner bap: n  =>", value?.data?.reverse());
       });
   }, [refreshAllPost]);
 

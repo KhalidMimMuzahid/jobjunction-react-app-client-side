@@ -27,9 +27,12 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 import Loader from "../../../Components/Loader/Loader";
 import { Link } from "react-router-dom";
+import checkAlreadyUser from "../../../utilities/checkAlreadyUser/checkAlreadyUser";
+import uploadProfileToMongoDB from "../../../utilities/uploadProfileToMongoDB/uploadProfileToMongoDB";
 
 const DefaultHomePage = () => {
-  const { emailPasswordSignIn, currentUser, isLoading } = useContext(MyContext);
+  const { emailPasswordSignIn, currentUser, isLoading, googleSignIn } =
+    useContext(MyContext);
   const [showPassword, setShowPassword] = useState(false);
   const [isSignInLoading, setIsSignInLoading] = useState(false);
   const [googleSignInError, setGoogleSignInError] = useState("");
@@ -91,6 +94,63 @@ const DefaultHomePage = () => {
         console.log("user is not sign in succesfully");
         setIsSignInLoading(false);
         setEmailPasswordSignInError(errorMessage);
+      });
+  };
+  const logInWithGoogle = () => {
+    setEmailPasswordSignInError("");
+    setGoogleSignInError("");
+    // console.log("clicked");
+    setIsSignInLoading(true);
+    googleSignIn()
+      .then((result: any) => {
+        const user = result.user;
+        // console.log("user", user);
+
+        const userInfoForDB = {
+          name: user.displayName,
+          email: user.email,
+          profilePhoto: user.photoURL,
+          uid: user.uid,
+          role: "user",
+          allFriends: [],
+          pendingReq: [],
+        };
+        // check this user is already have in database or not
+        checkAlreadyUser(user.uid)
+          .then((res) => res.json())
+          .then((data) => {
+            if (!data.isUserAlreadyExists) {
+              // if the user is not already in database
+              // console.log("the user is not already in database");
+              // upload user info to mongodb database
+              uploadProfileToMongoDB(userInfoForDB)
+                .then((res) => res.json())
+                .then((data) => {
+                  if (data?.acknowledged) {
+                    setIsSignInLoading(false);
+                    // toast.success("user created successfully");
+                    setTimeout(() => {
+                      navigate(from, { replace: true });
+                    }, 100);
+                  }
+                });
+            } else {
+              // if the user is already in database
+              // console.log("the user is already in database");
+              setIsSignInLoading(false);
+              // toast.success("user created successfully");
+              setTimeout(() => {
+                navigate(from, { replace: true });
+              }, 100);
+            }
+          });
+      })
+      .catch((error: any) => {
+        const errorMessage = error.message;
+        // console.log("errorMessage", errorMessage);
+        setGoogleSignInError(errorMessage);
+        setIsSignInLoading(false);
+        return;
       });
   };
   return (
@@ -210,7 +270,11 @@ const DefaultHomePage = () => {
               <SOCIALSIGNCONTAINER>
                 <Box className="goggleSignBtn">
                   <GoogleIcon />
-                  <Typography sx={{ paddingLeft: "10px" }} component="a">
+                  <Typography
+                    sx={{ paddingLeft: "10px" }}
+                    component="a"
+                    onClick={logInWithGoogle}
+                  >
                     Sign in with Google
                   </Typography>
                 </Box>
