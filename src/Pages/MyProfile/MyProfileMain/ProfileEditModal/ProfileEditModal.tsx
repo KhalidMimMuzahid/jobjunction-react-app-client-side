@@ -87,7 +87,7 @@ const ProfileEditModal = (props: any) => {
             };
             console.log("userEidtInfo", userEditInfo);
 
-            fetch("http://localhost:5000/updateprofile", {
+            fetch(`${process.env.REACT_APP_server_link}/updateprofile`, {
               method: "PUT",
               headers: {
               "Content-Type": "application/json",

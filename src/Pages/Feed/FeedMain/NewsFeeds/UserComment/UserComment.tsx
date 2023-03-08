@@ -27,7 +27,7 @@ const UserComment: React.FunctionComponent<UserCommentProps> = (props) => {
     const { data: allComments, error, isLoading, refetch } = useQuery({
         queryKey: [id],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/comments?id=${id}`)
+            const res = await fetch(`${process.env.REACT_APP_server_link}/comments?id=${id}`)
             const data = await res.json()
             // console.log(data.data)
             return (data.data.reverse())
@@ -45,14 +45,14 @@ const UserComment: React.FunctionComponent<UserCommentProps> = (props) => {
 
     // const { comment, commnenterName, commnenterPhoto } = allComments;
 
-    
-    
-    
+
+
+
     const handelComment = (e: any) => {
         e.preventDefault()
         // const form = e.target
         const comment = e.target.comment.value;
-        
+
         const info = {
             commnenterName: displayName,
             commnenterEmail: email,
@@ -61,15 +61,15 @@ const UserComment: React.FunctionComponent<UserCommentProps> = (props) => {
             id
         }
 
-        fetch('http://localhost:5000/comment', {
+        fetch(`${process.env.REACT_APP_server_link}/comment`, {
             method: "PUT",
             headers: {
                 'content-type': "application/json",
                 info: JSON.stringify(info)
             }
         })
-        .then(res => res.json())
-        .then(data => {
+            .then(res => res.json())
+            .then(data => {
                 console.log(data)
                 e.target.reset()
                 toast.success("Comment added succesfully")
@@ -78,7 +78,7 @@ const UserComment: React.FunctionComponent<UserCommentProps> = (props) => {
     }
 
     // console.log(allComments)
-    
+
     if (isLoading) {
         return <Loader type="" />
     }
@@ -92,7 +92,7 @@ const UserComment: React.FunctionComponent<UserCommentProps> = (props) => {
                 justifyContent: 'space-between',
                 alignItems: 'center',
                 // flexWrap: 'wrap'
-                
+
             }}>
                 <Box className="input-area" sx={{ flexGrow: 1 }}>
                     {/* comment input field start */}
@@ -117,7 +117,7 @@ const UserComment: React.FunctionComponent<UserCommentProps> = (props) => {
 
             {
                 allComments &&
-                allComments.slice(0, 2)?.map((comment:any, i:any) => {
+                allComments.slice(0, 2)?.map((comment: any, i: any) => {
                     return <USER_COMMENT_CONTAINER key={i}>
                         <Box>
                             <Avatar alt="photoURL" src={comment?.commnenterPhoto} />

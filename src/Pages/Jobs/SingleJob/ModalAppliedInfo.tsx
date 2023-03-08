@@ -54,7 +54,7 @@ const ModalAppliedInfo = (props: any) => {
         }
         // console.log(info)
 
-        fetch('http://localhost:5000/applyajob', {
+        fetch(`${process.env.REACT_APP_server_link}/applyajob`, {
             method: "PUT",
             headers: {
                 "content-type": "application/json",
