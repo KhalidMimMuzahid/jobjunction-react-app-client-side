@@ -24,6 +24,7 @@ import Container from "@mui/material/Container";
 import { MyContext } from "../../context/MyProvider/MyProvider";
 import { SearchContext } from "../../context/SearchPovider/SearchPovider";
 import { useHaveIJobPost } from "../../useHooks/useHaveIJobPost/useHaveIJobPost";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 // interface IPROPS {
 //   setSearchBarIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 //   setSearchKey: React.Dispatch<React.SetStateAction<string>>;
@@ -227,18 +228,34 @@ const Navbar = () => {
         </IconButton>
         <p>Notifications</p>
       </MenuItem> */}
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
+      {currentUser?.uid ? (
+        <MenuItem onClick={handleProfileMenuOpen}>
+          <IconButton
+            size="large"
+            aria-label="account of current user"
+            aria-controls="primary-search-account-menu"
+            aria-haspopup="true"
+            color="inherit"
+          >
+            <AccountCircle />
+          </IconButton>
+          <Typography sx={{ textDecoration: "none" }}>Profile</Typography>
+        </MenuItem>
+      ) : (
+        <Link to="/signUp" style={{ textDecoration: "none" }}>
+          <MenuItem sx={{ textDecoration: "none", color: "black" }}>
+            <IconButton
+              sx={{ textDecoration: "none" }}
+              size="large"
+              aria-label="show 4 new mails"
+              color="inherit"
+            >
+              <AddCircleIcon sx={{ textDecoration: "none" }} />
+            </IconButton>
+            <Typography sx={{ textDecoration: "none" }}>Jobs</Typography>
+          </MenuItem>
+        </Link>
+      )}
     </Menu>
   );
 
@@ -557,40 +574,82 @@ const Navbar = () => {
             >
               <AccountCircle />
             </IconButton> */}
-              <Box
-                sx={{
-                  display: { xs: "none", md: "flex" },
-                  placeItems: "center",
-                  position: "relative",
-                  top: "4px",
-                  margin: "0px 5px",
-                }}
-                aria-label="account of current user"
-                aria-controls={menuId}
-                aria-haspopup="true"
-                onClick={handleProfileMenuOpen}
-                color="inherit"
-              >
-                {/* https://i.ibb.co/XxdjZXt/profile-Demo.png */}
-                <Avatar
+              {currentUser?.uid ? (
+                <Box
                   sx={{
-                    width: 42,
-                    height: 42,
+                    display: { xs: "none", md: "flex" },
+                    placeItems: "center",
                     position: "relative",
-                    top: "-5px",
+                    top: "4px",
+                    margin: "0px 5px",
                   }}
-                  alt="profile"
-                  src={`${
-                    currentUser?.photoURL
-                      ? currentUser?.photoURL
-                      : "https://i.ibb.co/XxdjZXt/profile-Demo.png"
-                  } `}
-                />
-                {/* <AccountCircle
+                  aria-label="account of current user"
+                  aria-controls={menuId}
+                  aria-haspopup="true"
+                  onClick={handleProfileMenuOpen}
+                  color="inherit"
+                >
+                  {/* https://i.ibb.co/XxdjZXt/profile-Demo.png */}
+                  <Avatar
+                    sx={{
+                      width: 42,
+                      height: 42,
+                      position: "relative",
+                      top: "-5px",
+                    }}
+                    alt="profile"
+                    src={`${
+                      currentUser?.photoURL
+                        ? currentUser?.photoURL
+                        : "https://i.ibb.co/XxdjZXt/profile-Demo.png"
+                    } `}
+                  />
+                  {/* <AccountCircle
                 fontSize="large"
                 sx={{ position: "relative", top: "-5px" }}
               /> */}
-              </Box>
+                </Box>
+              ) : (
+                <Link
+                  to={"/signUp"}
+                  style={{ textDecoration: "none", margin: "0px 5px" }}
+                >
+                  <Box
+                    sx={{
+                      display: { xs: "none", md: "flex" },
+                      flexDirection: "column",
+                      placeItems: "center",
+                      position: "relative",
+                      top: "5px",
+                      margin: "0px 5px",
+                      color: "#535353",
+                      ":hover": { color: "#000000", cursor: "pointer" },
+                    }}
+                  >
+                    <Box color="inherit">
+                      <AddCircleIcon />
+                    </Box>
+                    <Typography
+                      variant="h1"
+                      noWrap
+                      component="div"
+                      sx={{
+                        textDecoration: "none",
+                        display: { xs: "none", sm: "block" },
+                        mt: "0px",
+                        padding: "0px",
+                        fontSize: "14px",
+                        fontWeight: 300,
+                        position: "relative",
+                        top: "-7px",
+                      }}
+                      style={{ fontWeight: 300 }}
+                    >
+                      join
+                    </Typography>
+                  </Box>
+                </Link>
+              )}
             </Box>
             <Box sx={{ display: { xs: "flex", md: "none" } }}>
               <IconButton
@@ -599,7 +658,7 @@ const Navbar = () => {
                 aria-controls={mobileMenuId}
                 aria-haspopup="true"
                 onClick={handleMobileMenuOpen}
-                color="inherit"
+                color="primary"
               >
                 <MoreIcon />
               </IconButton>

@@ -53,23 +53,39 @@ export const router = createBrowserRouter([
         path: "/my-network",
         element: (
           // <ControlSearchInNav>
-          <MyNetwork />
+          <PrivetRoute>
+            <MyNetwork />
+          </PrivetRoute>
+
           // </ControlSearchInNav>
         ),
       },
       {
         path: "/jobs",
-        element: <Jobs />,
+        element: (
+          <PrivetRoute>
+            <Jobs />{" "}
+          </PrivetRoute>
+        ),
       },
       {
         path: "/jobs/:id",
-        element: <SingleJob />,
+        element: (
+          <PrivetRoute>
+            {" "}
+            <SingleJob />
+          </PrivetRoute>
+        ),
         loader: ({ params }) =>
           fetch(`${process.env.REACT_APP_server_link}/jobs/${params.id}`),
       },
       {
         path: "/my-profile",
-        element: <MyProfile />,
+        element: (
+          <PrivetRoute>
+            <MyProfile />{" "}
+          </PrivetRoute>
+        ),
         children: [
           {
             path: "/my-profile",
@@ -83,7 +99,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/my-job-post",
-        element: <MyJobPosts />,
+        element: (
+          <PrivetRoute>
+            <MyJobPosts />
+          </PrivetRoute>
+        ),
         children: [
           {
             path: "/my-job-post",
@@ -99,7 +119,12 @@ export const router = createBrowserRouter([
       },
       {
         path: "/search",
-        element: <Search />,
+        element: (
+          <PrivetRoute>
+            {" "}
+            <Search />
+          </PrivetRoute>
+        ),
         children: [
           {
             path: "/search",
@@ -124,7 +149,10 @@ export const router = createBrowserRouter([
         path: "/messaging",
         element: (
           // <ControlMessageRoute>
-          <Messaging />
+          <PrivetRoute>
+            {" "}
+            <Messaging />
+          </PrivetRoute>
           // </ControlMessageRoute>
         ),
         children: [
@@ -137,7 +165,12 @@ export const router = createBrowserRouter([
       },
       {
         path: "/jobs/post-a-job",
-        element: <PostAJob />,
+        element: (
+          <PrivetRoute>
+            {" "}
+            <PostAJob />
+          </PrivetRoute>
+        ),
       },
     ],
   },

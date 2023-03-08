@@ -161,12 +161,7 @@ export default function NewsFeedCard({ data, setRefreshAllPost }) {
             : postDescription}
         </Typography>
       </CardContent>
-      <CardMedia
-        component="img"
-        height="194"
-        image={postImage}
-        alt="Paella dish"
-      />
+      <CardMedia component="img" image={postImage} alt="Paella dish" />
 
       {/*all like comment share container  */}
       <Box
