@@ -46,6 +46,7 @@ const ExpandMore = styled((props) => {
 export default function NewsFeedCard({ data, setRefreshAllPost }) {
   // destructure all newsFeed
   const [isLiked, setIsLiked] = React.useState(false);
+  const [likeStatus, setLikeStatus] = React.useState("");
   const { data: data1, isLoading, refetch } = useMyProfile();
   const { currentUser } = useContext(MyContext);
   const {
@@ -124,6 +125,30 @@ export default function NewsFeedCard({ data, setRefreshAllPost }) {
     }
   };
 
+  //   <span>
+  //   {isLiked
+  //     ? `you and ${totalLikes - 1} other like this`
+  //     : `${totalLikes} poeple likes this`}
+  // </span>
+  useEffect(() => {
+    switch (isLiked) {
+      case true:
+        switch (totalLikes === 1) {
+          case true:
+            // code block
+            setLikeStatus(`you likes this`);
+            break;
+          default:
+            // code block
+            setLikeStatus(`you and ${totalLikes - 1} other like this`);
+        }
+        break;
+      default:
+        // code block
+        setLikeStatus(`${totalLikes} poeple likes this`);
+    }
+  }, [isLiked]);
+
   return (
     // single NewsFeed Cards
     <Card sx={{ width: "100%" }}>
@@ -161,7 +186,17 @@ export default function NewsFeedCard({ data, setRefreshAllPost }) {
             : postDescription}
         </Typography>
       </CardContent>
-      <CardMedia component="img" image={postImage} alt="Paella dish" />
+
+      <CardMedia
+        sx={{
+          backgroundSize: "cover",
+          // height: "300px",
+          weight: "100%",
+        }}
+        image={postImage}
+        component="img"
+        alt="Paella dish"
+      />
 
       {/*all like comment share container  */}
       <Box
@@ -187,13 +222,13 @@ export default function NewsFeedCard({ data, setRefreshAllPost }) {
               alignItems: "center",
             }}
           >
-            <FavoriteIcon fontSize="small" />
-            <ThumbUpOutlinedIcon fontSize="small" />
-            <SentimentVeryDissatisfiedOutlinedIcon fontSize="small" />
+            {/* <FavoriteIcon fontSize="small" /> */}
+            {/* <ThumbUpOutlinedIcon fontSize="small" /> */}
+            {/* <SentimentVeryDissatisfiedOutlinedIcon fontSize="small" /> */}
           </Box>
           <Box>
             {/* <span>{allLikes.length} other likes</span> */}
-            <span>{totalLikes} other likes</span>
+            <span>{likeStatus}</span>
           </Box>
         </Box>
 
