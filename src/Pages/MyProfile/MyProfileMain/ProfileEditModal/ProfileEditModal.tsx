@@ -87,169 +87,169 @@ const ProfileEditModal = (props: any) => {
             };
             console.log("userEidtInfo", userEditInfo);
 
-            fetch("http://localhost:5000/updateprofile", {
+            fetch(`${process.env.REACT_APP_server_link}/updateprofile`, {
               method: "PUT",
               headers: {
-              "Content-Type": "application/json",
-              // 'Content-Type': 'application/x-www-form-urlencoded',
-            },
+                "Content-Type": "application/json",
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+              },
               body: JSON.stringify(userEditInfo),
             })
-          .then((res) => res.json())
-          .then((data) => {
-            console.log("success data updated", data);
-            if (data.data.acknowledged) {
-              reset();
-              toast.success("Your Bio Data is successfully update");
-            }
+              .then((res) => res.json())
+              .then((data) => {
+                console.log("success data updated", data);
+                if (data.data.acknowledged) {
+                  reset();
+                  toast.success("Your Bio Data is successfully update");
+                }
+              });
           });
       });
-  });
-};
+  };
 
-return (
-  <div>
-    {/* <Button >Open modal</Button> */}
-    <Modal
-      open={open}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
-      <MODAL_BODY>
-        <form onSubmit={handleSubmit(handleFormSubmit)}>
-          <Box className="edit-intro">
-            <Typography component="h2" className="title">
-              Edit intro
-            </Typography>
-            <IconButton className="clear-btn" onClick={handleClose}>
-              <ClearIcon />
-            </IconButton>
-          </Box>
-          <EDIT_CONTAINER spacing={3}>
-            {/* profile img input start */}
-            <Box>
-              <Typography component="h2" className="titleLabel">
-                Profile Photo
+  return (
+    <div>
+      {/* <Button >Open modal</Button> */}
+      <Modal
+        open={open}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <MODAL_BODY>
+          <form onSubmit={handleSubmit(handleFormSubmit)}>
+            <Box className="edit-intro">
+              <Typography component="h2" className="title">
+                Edit intro
               </Typography>
-              <ISERT_FIELD>
-                <label htmlFor="file-input1">
-                  <IconButton>
-                    <GetAppIcon />
-                  </IconButton>
-                </label>
-                <input
-                  {...register("profileImg")}
-                  // name="profilePhoto"
-                  id="file-input1"
-                  type="file"
+              <IconButton className="clear-btn" onClick={handleClose}>
+                <ClearIcon />
+              </IconButton>
+            </Box>
+            <EDIT_CONTAINER spacing={3}>
+              {/* profile img input start */}
+              <Box>
+                <Typography component="h2" className="titleLabel">
+                  Profile Photo
+                </Typography>
+                <ISERT_FIELD>
+                  <label htmlFor="file-input1">
+                    <IconButton>
+                      <GetAppIcon />
+                    </IconButton>
+                  </label>
+                  <input
+                    {...register("profileImg")}
+                    // name="profilePhoto"
+                    id="file-input1"
+                    type="file"
+                  />
+                  {/* <TextField id="file-input" size='small' fullWidth type="file" /> */}
+                </ISERT_FIELD>
+              </Box>
+              {/* LOCATION input end */}
+
+              {/* cover photo  input start */}
+              <Box>
+                <Typography component="h2" className="titleLabel">
+                  Cover Photo
+                </Typography>
+                <ISERT_FIELD>
+                  <label
+                    className={photoHandle?.coverPhoto ? "isFile" : undefined}
+                    htmlFor="file-input2"
+                  >
+                    <IconButton>
+                      <GetAppIcon />
+                    </IconButton>
+                  </label>
+                  <input
+                    {...register("coverImg")}
+                    // onChange={handlephotoHandle}
+                    // name="coverPhoto"
+                    id="file-input2"
+                    type="file"
+                  />
+                  {/* <TextField id="file-input" size='small' fullWidth type="file" /> */}
+                </ISERT_FIELD>
+              </Box>
+              {/*cover photo  input end */}
+
+              {/* name input start */}
+              <Box>
+                {/* <Typography component="h2">YOUR NAME</Typography> */}
+                <TextField
+                  size="small"
+                  fullWidth
+                  type="text"
+                  label="your name"
+                  defaultValue={currentUser.displayName}
+                  disabled
+                  // InputProps={{ readOnly: {currentUser.displayName}, disableUnderline: true }}
                 />
-                {/* <TextField id="file-input" size='small' fullWidth type="file" /> */}
-              </ISERT_FIELD>
-            </Box>
-            {/* LOCATION input end */}
+              </Box>
+              {/* name input end */}
 
-            {/* cover photo  input start */}
-            <Box>
-              <Typography component="h2" className="titleLabel">
-                Cover Photo
-              </Typography>
-              <ISERT_FIELD>
-                <label
-                  className={photoHandle?.coverPhoto ? "isFile" : undefined}
-                  htmlFor="file-input2"
-                >
-                  <IconButton>
-                    <GetAppIcon />
-                  </IconButton>
-                </label>
-                <input
-                  {...register("coverImg")}
-                  // onChange={handlephotoHandle}
-                  // name="coverPhoto"
-                  id="file-input2"
-                  type="file"
+              {/* title input start */}
+              <Box>
+                {/* <Typography component="h2">YOUR TITLE</Typography> */}
+                <TextField
+                  {...register("title")}
+                  size="small"
+                  fullWidth
+                  type="text"
+                  label="your title"
                 />
-                {/* <TextField id="file-input" size='small' fullWidth type="file" /> */}
-              </ISERT_FIELD>
-            </Box>
-            {/*cover photo  input end */}
+              </Box>
+              {/* title input end */}
 
-            {/* name input start */}
-            <Box>
-              {/* <Typography component="h2">YOUR NAME</Typography> */}
-              <TextField
-                size="small"
-                fullWidth
-                type="text"
-                label="your name"
-                defaultValue={currentUser.displayName}
-                disabled
-              // InputProps={{ readOnly: {currentUser.displayName}, disableUnderline: true }}
-              />
-            </Box>
-            {/* name input end */}
+              {/* CITY input start */}
+              <Box>
+                {/* <Typography component="h2">CITY</Typography> */}
+                <TextField
+                  {...register("city")}
+                  size="small"
+                  fullWidth
+                  type="text"
+                  label="city"
+                />
+              </Box>
+              {/* CITY input end */}
 
-            {/* title input start */}
-            <Box>
-              {/* <Typography component="h2">YOUR TITLE</Typography> */}
-              <TextField
-                {...register("title")}
-                size="small"
-                fullWidth
-                type="text"
-                label="your title"
-              />
-            </Box>
-            {/* title input end */}
+              {/* LOCATION input start */}
+              <Box>
+                {/* <Typography component="h2">LOCATION</Typography> */}
+                <TextField
+                  {...register("location")}
+                  size="small"
+                  fullWidth
+                  type="text"
+                  label="location"
+                />
+              </Box>
+              {/* LOCATION input end */}
 
-            {/* CITY input start */}
-            <Box>
-              {/* <Typography component="h2">CITY</Typography> */}
-              <TextField
-                {...register("city")}
-                size="small"
-                fullWidth
-                type="text"
-                label="city"
-              />
-            </Box>
-            {/* CITY input end */}
+              {/* phone number input start */}
+              <Box>
+                {/* <Typography component="h2">LOCATION</Typography> */}
+                <TextField
+                  {...register("phone")}
+                  size="small"
+                  fullWidth
+                  type="number"
+                  label="phone"
+                />
+              </Box>
+              {/* phone number input end */}
 
-            {/* LOCATION input start */}
-            <Box>
-              {/* <Typography component="h2">LOCATION</Typography> */}
-              <TextField
-                {...register("location")}
-                size="small"
-                fullWidth
-                type="text"
-                label="location"
-              />
-            </Box>
-            {/* LOCATION input end */}
-
-            {/* phone number input start */}
-            <Box>
-              {/* <Typography component="h2">LOCATION</Typography> */}
-              <TextField
-                {...register("phone")}
-                size="small"
-                fullWidth
-                type="number"
-                label="phone"
-              />
-            </Box>
-            {/* phone number input end */}
-
-            <Box className="submit-btn">
-              <Button type="submit">Submit</Button>
-            </Box>
-          </EDIT_CONTAINER>
-        </form>
-      </MODAL_BODY>
-    </Modal>
-  </div>
-);
+              <Box className="submit-btn">
+                <Button type="submit">Submit</Button>
+              </Box>
+            </EDIT_CONTAINER>
+          </form>
+        </MODAL_BODY>
+      </Modal>
+    </div>
+  );
 };
 
 export default ProfileEditModal;
