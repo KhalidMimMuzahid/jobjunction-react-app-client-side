@@ -53,7 +53,7 @@ const SearchResultDetails = () => {
   // }
 
   return (
-    <div>
+    <div style={{ height: "600px", padding: "0 2rem", overflowY: "scroll" }}>
       {/* <h1>people details</h1> */}
       {searchDetails}
     </div>

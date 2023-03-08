@@ -115,7 +115,7 @@ const Main = () => {
               />
             </div>
           )}
-          <Box sx={{ pt: ptForMain?.pt }}>
+          <Box sx={{ pt: ptForMain?.pt, minHeight: "100vh" }}>
             {/* <Typography variant="h1">this is h1</Typography>
         <input type="checkbox" onClick={() => setSelectTheme(!selectTheme)} /> */}
             <Outlet />

@@ -75,34 +75,36 @@ const JobDetails = () => {
               alt=""
             />
           </div>
-          <h1>Vacancy: {jobTitle}</h1>
-          <h3>Post Date: {splitedTime[0]}</h3>
-          <h3>Company Name: {companyName}</h3>
-          <h3>Job Description: {jobDescription}</h3>
+          <h4>Vacancy: {jobTitle}</h4>
+          <h4>Post Date: {splitedTime[0]}</h4>
+          <h4>Company Name: {companyName}</h4>
+          <h5 style={{ textAlign: "justify" }}>
+            Job Description: {jobDescription}
+          </h5>
 
-          <h3>
+          <h4>
             Requirements:{" "}
             {requireMents?.map((req: any) => (
               <li>{req}</li>
             ))}
-          </h3>
+          </h4>
 
-          <h3>
+          <h4>
             Needed Skills:{" "}
             {skillSets?.map((skill: any) => (
               <li>{skill}</li>
             ))}
-          </h3>
+          </h4>
 
-          <h3>
+          <h4>
             Responseibility:{" "}
             {responsibilities?.map((res: any) => (
               <li>{res}</li>
             ))}
-          </h3>
+          </h4>
 
-          <h3>Job Location: {jobLocation}</h3>
-          <h3>Contact Email: {userEmail}</h3>
+          <h4>Job Location: {jobLocation}</h4>
+          <h4>Contact Email: {userEmail}</h4>
 
           <Box
             sx={{

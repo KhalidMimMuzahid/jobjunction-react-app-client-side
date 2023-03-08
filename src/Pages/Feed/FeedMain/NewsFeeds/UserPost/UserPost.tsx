@@ -44,6 +44,7 @@ const UserPost = (props: any) => {
           justifyContent: "space-between",
           alignItems: "center",
           // borderTop: '1.5px solid #eee'
+          flexWrap: "wrap",
         }}
       >
         {/* Photo btn */}
