@@ -337,7 +337,7 @@ const Navbar = () => {
                     fontWeight: 900,
                   }}
                 >
-                  Jub_Junction
+                  Job_Junction
                 </Typography>
               </Box>
             </Link>
