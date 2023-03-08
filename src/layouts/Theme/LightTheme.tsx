@@ -21,7 +21,7 @@ const lightTheme = createTheme({
     h1: {
       color: "black",
     },
-  }
+  },
 });
 
 export default lightTheme;
