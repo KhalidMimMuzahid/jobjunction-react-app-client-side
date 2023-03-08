@@ -23,12 +23,12 @@ const SearchResultLists = () => {
     // code block
   }
   return (
-    <div>
+    <div style={{ height: "600px", overflowY: "scroll" }}>
       {/* <h1>length:{searchResultList?.length}</h1> */}
 
       {searchResul}
     </div>
   );
 };
-
+// height: '100vh'
 export default SearchResultLists;

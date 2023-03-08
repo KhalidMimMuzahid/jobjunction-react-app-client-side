@@ -3,7 +3,7 @@ import { Stack, styled } from "@mui/material";
 export const JobListsContailer = styled(Stack)(({ theme }) => ({
   backgroundColor: "#fff",
   padding: "1rem",
-  overflowY: "scroll",
+  // overflowY: "scroll",
   height: "100%",
 
   "& .activeColor": {

@@ -190,7 +190,7 @@ export default function NewsFeedCard({ data, setRefreshAllPost }) {
       <CardMedia
         sx={{
           backgroundSize: "cover",
-          // height: "300px",
+          maxHeight: { xs: "300px", md: "500px" },
           weight: "100%",
         }}
         image={postImage}

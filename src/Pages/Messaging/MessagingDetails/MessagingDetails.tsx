@@ -154,7 +154,7 @@ const MessagingDetails = () => {
 
   return (
     <MESSAGINGCHATINGCONTAINER
-      sx={{ position: "relative", paddingY: ".75rem", paddingBottom: "70px" }}
+      sx={{ position: "relative", paddingY: ".75rem" }}
     >
       {/* top side. its name and logo. call, video, information button initial */}
       <Paper
@@ -202,7 +202,7 @@ const MessagingDetails = () => {
       {/* client or your messaging list section */}
       {/* sx={{ overflowY: 'scroll', height: '100vh' }} */}
       {/* chating section start */}
-      <Box sx={{ overflowY: "scroll", height: 500, margin: "1rem" }}>
+      <Box sx={{ overflowY: "scroll", height: "700px", margin: "1rem" }}>
         {messages?.map((eachMessage: any) => (
           <EachMessage
             key={eachMessage?._id}
