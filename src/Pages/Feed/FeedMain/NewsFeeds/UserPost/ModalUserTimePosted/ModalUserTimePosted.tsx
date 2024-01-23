@@ -14,7 +14,7 @@ import {
 } from "./ModalUserTimePosted.styled";
 import IconButton from "@mui/material/IconButton";
 import Avatar from "@mui/material/Avatar";
-import TextareaAutosize from "@mui/base/TextareaAutosize";
+// import TextareaAutosize from "@mui/base/TextareaAutosize";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import QueuePlayNextIcon from "@mui/icons-material/QueuePlayNext";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
@@ -24,6 +24,7 @@ import uploadImageToImageBB from "../../../../../../utilities/uploadImageToImage
 import { toast } from "react-toastify";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
+import { TextareaAutosize } from "@mui/material";
 const style = {
   position: "absolute" as "absolute",
   top: "50%",
