@@ -158,7 +158,7 @@ export const router = createBrowserRouter([
         children: [
           {
             path: "/messaging/message-details/:chat_id",
-            loader: ({ params }) => params?.chat_id,
+            loader: ({ params }) => params?.chat_id as string,
             element: <MessagingDetails />,
           },
         ],
